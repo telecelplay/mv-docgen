@@ -66,7 +66,7 @@ public class DocGenScript extends Script {
 					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
 					.map(entity -> entity.getItemEntity())
 					.collect(Collectors.toList());
-            //log.info("endpointCodes == {}",endpointEntities);
+            log.info("endpointEntities == {}",endpointEntities.size());
 			endpointEntities.forEach(e -> {
               	log.info("endpoint code == {}, desc == {}",e.getCode(),e.getDescription());
               	Endpoint endpoint = endpointService.findByCode(e.getCode());
