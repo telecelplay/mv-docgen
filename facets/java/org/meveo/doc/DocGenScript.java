@@ -66,7 +66,11 @@ public class DocGenScript extends Script {
 					.collect(Collectors.toList());
             log.info("endpointCodes == {}",endpointCodes);
 			endpointCodes.forEach(e -> {
+              	log.info("endpoint code == {}",e);
               	Endpoint endpoint = endpointService.findByCode(e);
+              	if(endpoint == null){
+                  log.info("endpoint not found");
+                }
               	log.info("endpoint method == {}",endpoint.getMethod().getLabel());
             	});
           
