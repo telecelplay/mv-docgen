@@ -58,11 +58,9 @@ public class DocGenScript extends Script {
 			Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 			moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 
-			List<String> endpointCodes = moduleItems.stream()
-					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemCode())
-					.collect(Collectors.toList());
-			log.info("endpointCodes: {}", endpointCodes);          
+          	List<Endpoint> endpointEntities = moduleItems.stream().filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
+              .map(m -> (Endpoint)m.getItemEntity()).collect(Collectors.toList());
+            endpointEntities.forEach(m -> log.info("endpoint code=={}, method== {}, content-type=={}, path=={}",m.getCode(),m.getMethod().getLabel(),m.getContentType(),m.getPath()));
 
           	List<String> entityCodes = moduleItems.stream()
 					.filter(item -> CET_CLASS.equals(item.getItemClass()))
