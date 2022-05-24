@@ -73,10 +73,7 @@ public class DocGenScript extends Script {
                 }
               	log.info("endpoint method == {}",endpoint.getMethod().getLabel());
             	});
-          
-          	List<Endpoint> endpointEntities = moduleItems.stream().filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
-              .map(m -> (Endpoint)m.getItemEntity()).collect(Collectors.toList());
-            endpointEntities.forEach(m -> log.info("endpoint2 code=={}",m.getCode()));
+         
 
           	List<String> entityCodes = moduleItems.stream()
 					.filter(item -> CET_CLASS.equals(item.getItemClass()))
