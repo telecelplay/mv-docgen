@@ -1,0 +1,9 @@
+{
+  "code" : "mv-docgen",
+  "description" : "doc generator module",
+  "license" : "GPL",
+  "currentVersion" : "0.1",
+  "isInDraft" : true,
+  "moduleDependencies" : [ ],
+  "moduleFiles" : [ ]
+}
