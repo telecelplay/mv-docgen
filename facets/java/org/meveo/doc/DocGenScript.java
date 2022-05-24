@@ -77,7 +77,7 @@ public class DocGenScript extends Script {
             	endpoint.getParametersMapping().forEach(f -> {
                   log.info("field name == {}",f.getParameterName());
                 });
-            	});
+            });
          
 
           	List<String> entityCodes = moduleItems.stream()
@@ -85,69 +85,6 @@ public class DocGenScript extends Script {
 					.map(entity -> entity.getItemCode())
 					.collect(Collectors.toList());
 			log.info("entityCodes: {}", entityCodes);
-
-			try {
-				// using user role and permissions, figure out which entities are allowed to be exported
-				log.info("user.getRoles(): {}", user.getRoles());
-				List<String> permissions = user.getRoles().stream().filter(role -> role.startsWith("CE_"))
-						.collect(Collectors.toList());
-				log.info("permissions: {}", permissions);
-
-				List<String> allowedEntities =
-						entityCodes.stream()
-								.filter(entityCode -> permissions.stream()
-										.anyMatch(permission -> permission.contains(entityCode)))
-								.collect(Collectors.toList());
-				log.info("allowedEntities: {}", allowedEntities);
-
-				List<EntityPermission> entityPermissions = allowedEntities.stream()
-						.map(entityCode -> {
-							List<String> permissionList = permissions.stream()
-									.filter(permission -> permission.contains(entityCode))
-									.map(permission -> permission.substring(permission.indexOf("-") + 1))
-									.sorted()
-									.collect(Collectors.toList());
-							return new EntityPermission(entityCode, permissionList);
-						})
-						.collect(Collectors.toList());
-				log.info("entityPermissions: {}", entityPermissions);
-
-			} catch (Exception exception) {
-				throw new BusinessException(exception);
-			}
-		} else {
-			throw new BusinessException("Module not found: " + moduleCode);
-		}
+        }
 	}	
-}
-
-class EntityPermission {
-	private String entityCode;
-	private List<String> permissions;
-
-	public EntityPermission(String entityCode, List<String> permissions) {
-		this.entityCode = entityCode;
-		this.permissions = permissions;
-	}
-
-	public String getEntityCode() {
-		return entityCode;
-	}
-
-	public void setEntityCode(String entityCode) {
-		this.entityCode = entityCode;
-	}
-
-	public List<String> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<String> permissions) {
-		this.permissions = permissions;
-	}
-
-	@Override
-	public String toString() {
-		return "EntityPermission [entityCode=" + entityCode + ", permissions=" + permissions + "]";
-	}
 }
