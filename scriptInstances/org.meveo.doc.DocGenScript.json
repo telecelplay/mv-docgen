@@ -1,0 +1,19 @@
+{
+  "code" : "org.meveo.doc.DocGenScript",
+  "description" : "Doc Generator Script",
+  "inputs" : [ {
+    "name" : "moduleCode",
+    "type" : "String"
+  } ],
+  "outputs" : [ {
+    "name" : "result",
+    "type" : "Object"
+  } ],
+  "generateOutputs" : false,
+  "type" : "JAVA",
+  "transactionType" : "SAME",
+  "executionRoles" : [ ],
+  "sourcingRoles" : [ ],
+  "mavenDependencies" : [ ],
+  "importScriptInstances" : [ ]
+}
