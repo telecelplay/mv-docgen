@@ -14,6 +14,7 @@ import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
+import org.meveo.model.BusinessEntity;
 import org.meveo.security.MeveoUser;
 import org.meveo.service.admin.impl.MeveoModuleService;
 import org.meveo.service.crm.impl.CurrentUserProducer;
@@ -61,14 +62,14 @@ public class DocGenScript extends Script {
 			Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 			moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 
-          	List<String> endpointCodes = moduleItems.stream()
+          	List<BusinessEntity> endpointEntities = moduleItems.stream()
 					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemCode())
+					.map(entity -> entity.getItemEntity())
 					.collect(Collectors.toList());
-            log.info("endpointCodes == {}",endpointCodes);
-			endpointCodes.forEach(e -> {
-              	log.info("endpoint code == {}",e);
-              	Endpoint endpoint = endpointService.findByCode(e);
+            //log.info("endpointCodes == {}",endpointEntities);
+			endpointEntities.forEach(e -> {
+              	log.info("endpoint code == {}, desc == {}",e.getCode(),e.getDescription());
+              	Endpoint endpoint = endpointService.findByCode(e.getCode());
               	if(endpoint == null){
                   log.info("endpoint not found");
                 }
