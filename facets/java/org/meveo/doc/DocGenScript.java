@@ -68,6 +68,9 @@ public class DocGenScript extends Script {
 					.collect(Collectors.toList());
             log.info("endpointEntities == {}",endpointEntities.size());
 			endpointEntities.forEach(e -> {
+              	if(e == null){
+                  log.error("business entity not found");
+                }
               	log.info("endpoint code == {}, desc == {}",e.getCode(),e.getDescription());
               	Endpoint endpoint = endpointService.findByCode(e.getCode());
               	if(endpoint == null){
