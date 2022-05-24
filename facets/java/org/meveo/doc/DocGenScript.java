@@ -10,6 +10,7 @@ import org.meveo.commons.utils.ParamBean;
 import org.meveo.commons.utils.ParamBeanFactory;
 import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.technicalservice.endpoint.Endpoint;
+import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.security.MeveoUser;
@@ -28,6 +29,7 @@ public class DocGenScript extends Script {
   	private MeveoModuleService meveoModuleService = getCDIBean(MeveoModuleService.class);
 	private ParamBeanFactory paramBeanFactory = getCDIBean(ParamBeanFactory.class);
 	private CurrentUserProducer currentUserProducer = getCDIBean(CurrentUserProducer.class);
+  	private EndpointService endpointService = getCDIBean(EndpointService.class);
 
 	private String moduleCode;
 	private Object result;
