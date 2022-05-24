@@ -9,6 +9,7 @@ import org.meveo.admin.exception.BusinessException;
 import org.meveo.commons.utils.ParamBean;
 import org.meveo.commons.utils.ParamBeanFactory;
 import org.meveo.model.customEntities.CustomEntityTemplate;
+import org.meveo.model.technicalservice.endpoint.Endpoint;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.security.MeveoUser;
@@ -20,9 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DocGenScript extends Script {
-	private static final String CUSTOM_TEMPLATE = CustomEntityTemplate.class.getName();
 	private static final Logger log = LoggerFactory.getLogger(DocGenScript.class);
-  	
+  	private static final String CET_CLASS = CustomEntityTemplate.class.getName();
+  	private	static final String ENDPOINT_CLASS = Endpoint.class.getName();
+  
   	private MeveoModuleService meveoModuleService = getCDIBean(MeveoModuleService.class);
 	private ParamBeanFactory paramBeanFactory = getCDIBean(ParamBeanFactory.class);
 	private CurrentUserProducer currentUserProducer = getCDIBean(CurrentUserProducer.class);
@@ -55,8 +57,15 @@ public class DocGenScript extends Script {
 			log.info("Module found: {}", module.getCode());
 			Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 			moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
-			List<String> entityCodes = moduleItems.stream()
-					.filter(item -> CUSTOM_TEMPLATE.equals(item.getItemClass()))
+
+			List<String> endpointCodes = moduleItems.stream()
+					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
+					.map(entity -> entity.getItemCode())
+					.collect(Collectors.toList());
+			log.info("endpointCodes: {}", endpointCodes);          
+
+          	List<String> entityCodes = moduleItems.stream()
+					.filter(item -> CET_CLASS.equals(item.getItemClass()))
 					.map(entity -> entity.getItemCode())
 					.collect(Collectors.toList());
 			log.info("entityCodes: {}", entityCodes);
