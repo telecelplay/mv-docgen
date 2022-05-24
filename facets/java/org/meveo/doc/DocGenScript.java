@@ -11,6 +11,7 @@ import org.meveo.commons.utils.ParamBeanFactory;
 import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.technicalservice.endpoint.Endpoint;
 import org.meveo.service.technicalservice.endpoint.EndpointService;
+import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.security.MeveoUser;
@@ -73,6 +74,9 @@ public class DocGenScript extends Script {
                 }
               	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
               	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+            	endpoint.getParametersMapping().forEach(f -> {
+                  log.info("field name == {}",f.getParameterName());
+                });
             	});
          
 
