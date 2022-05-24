@@ -71,7 +71,7 @@ public class DocGenScript extends Script {
               	if(endpoint == null){
                   log.info("endpoint not found");
                 }
-              	log.info("endpoint method == {}",endpoint.getMethod().getLabel());
+              	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
             	});
          
 
