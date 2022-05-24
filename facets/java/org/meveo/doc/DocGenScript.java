@@ -72,6 +72,7 @@ public class DocGenScript extends Script {
                   log.info("endpoint not found");
                 }
               	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+              	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
             	});
          
 
