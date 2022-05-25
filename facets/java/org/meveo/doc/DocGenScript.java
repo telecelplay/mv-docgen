@@ -12,6 +12,7 @@ import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.technicalservice.endpoint.Endpoint;
 import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.model.scripts.ScriptInstance;
+import org.meveo.service.script.ScriptInstanceService;
 import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
@@ -34,6 +35,7 @@ public class DocGenScript extends Script {
 	private ParamBeanFactory paramBeanFactory = getCDIBean(ParamBeanFactory.class);
 	private CurrentUserProducer currentUserProducer = getCDIBean(CurrentUserProducer.class);
   	private EndpointService endpointService = getCDIBean(EndpointService.class);
+  	private ScriptInstanceService scriptInstanceService = getCDIBean(ScriptInstanceService.class);
 
 	private String moduleCode;
 	private Object result;
