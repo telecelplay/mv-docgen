@@ -88,7 +88,7 @@ public class DocGenScript extends Script {
               	if(scriptInstance == null){
                   log.info("script instance is null");
                 } else {
-                  log.info("script instance id == {}",scriptInstance.getId());
+                  log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
                 }
             });
          
