@@ -64,17 +64,14 @@ public class DocGenScript extends Script {
 
           	moduleItems.stream().filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
 				.forEach(entity -> log.info("ent desc == {}",entity.getItemEntity().getDescription()));
-          	List<BusinessEntity> endpointEntities = moduleItems.stream()
+          	List<String> endpointCodes = moduleItems.stream()
 					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemEntity())
+					.map(entity -> entity.getItemCode())
 					.collect(Collectors.toList());
-            log.info("endpointEntities == {}",endpointEntities.size());
-			endpointEntities.forEach(e -> {
-              	if(e == null){
-                  log.error("business entity not found");
-                }
-              	log.info("endpoint code == {}, desc == {}",e.getCode(),e.getDescription());
-              	Endpoint endpoint = endpointService.findByCode(e.getCode());
+            log.info("endpointCodes == {}",endpointCodes);
+			endpointCodes.forEach(c -> {
+              	log.info("endpoint code == {}",c);
+              	Endpoint endpoint = endpointService.findByCode(c);
               	if(endpoint == null){
                   log.info("endpoint not found");
                 }
