@@ -11,6 +11,7 @@ import org.meveo.commons.utils.ParamBeanFactory;
 import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.technicalservice.endpoint.Endpoint;
 import org.meveo.service.technicalservice.endpoint.EndpointService;
+import org.meveo.model.scripts.ScriptInstance;
 import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
@@ -27,6 +28,7 @@ public class DocGenScript extends Script {
 	private static final Logger log = LoggerFactory.getLogger(DocGenScript.class);
   	private static final String CET_CLASS = CustomEntityTemplate.class.getName();
   	private	static final String ENDPOINT_CLASS = Endpoint.class.getName();
+  	private static final String SCRIPT_INSTANCE_CLASS = ScriptInstance.class.getName();
   
   	private MeveoModuleService meveoModuleService = getCDIBean(MeveoModuleService.class);
 	private ParamBeanFactory paramBeanFactory = getCDIBean(ParamBeanFactory.class);
@@ -80,6 +82,11 @@ public class DocGenScript extends Script {
                 });
             });
          
+          	List<String> scriptInstanceCodes = moduleItems.stream()
+					.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
+					.map(entity -> entity.getItemCode())
+					.collect(Collectors.toList());
+            log.info("scriptInstanceCodes == {}",scriptInstanceCodes);
 
           	List<String> entityCodes = moduleItems.stream()
 					.filter(item -> CET_CLASS.equals(item.getItemClass()))
