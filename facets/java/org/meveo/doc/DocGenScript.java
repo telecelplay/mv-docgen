@@ -86,8 +86,19 @@ public class DocGenScript extends Script {
 					.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
 					.map(entity -> entity.getItemCode())
 					.collect(Collectors.toList());
-            log.info("scriptInstanceCodes == {}",scriptInstanceCodes);
-
+			scriptInstanceCodes.forEach(c -> {
+              	log.info("scriptInstance code == {}",c);
+              	Endpoint endpoint = endpointService.findByCode(c);
+              	if(endpoint == null){
+                  log.info("endpoint not found");
+                }
+              	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+              	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+            	endpoint.getParametersMapping().forEach(f -> {
+                  log.info("field name == {}",f.getParameterName());
+                });
+            });
+          
           	List<String> entityCodes = moduleItems.stream()
 					.filter(item -> CET_CLASS.equals(item.getItemClass()))
 					.map(entity -> entity.getItemCode())
