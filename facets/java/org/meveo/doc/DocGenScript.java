@@ -21,6 +21,7 @@ import org.meveo.security.MeveoUser;
 import org.meveo.service.admin.impl.MeveoModuleService;
 import org.meveo.service.crm.impl.CurrentUserProducer;
 import org.meveo.service.script.Script;
+import org.meveo.model.scripts.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,24 +83,31 @@ public class DocGenScript extends Script {
             	endpoint.getParametersMapping().forEach(f -> {
                   log.info("field name == {}",f.getParameterName());
                 });
+
+              	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
+              	if(scriptInstance == null){
+                  log.info("script instance is null");
+                } else {
+                  log.info("script instance id == {}",scriptInstance.getId());
+                }
             });
          
-          	List<String> scriptInstanceCodes = moduleItems.stream()
-					.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemCode())
-					.collect(Collectors.toList());
-			scriptInstanceCodes.forEach(c -> {
-              	log.info("scriptInstance code == {}",c);
-              	Endpoint endpoint = endpointService.findByCode(c);
-              	if(endpoint == null){
-                  log.info("endpoint not found");
-                }
-              	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
-              	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
-            	endpoint.getParametersMapping().forEach(f -> {
-                  log.info("field name == {}",f.getParameterName());
-                });
-            });
+          	//List<String> scriptInstanceIds = moduleItems.stream()
+			//		.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
+			//		.map(entity -> entity.getService().getId())
+			//		.collect(Collectors.toList());
+			//scriptInstanceCodes.forEach(i -> {
+            //  	log.info("scriptInstance id == {}",i);
+            // 	ScriptInstance scriptInstance = scriptInstanceService.findById(i);
+            //  	if(scriptInstance == null){
+            //      log.info("scrip instance not found");
+            //    }
+              	//log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+              	//log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+            	//endpoint.getParametersMapping().forEach(f -> {
+                //  log.info("field name == {}",f.getParameterName());
+                //});
+            //});
           
           	List<String> entityCodes = moduleItems.stream()
 					.filter(item -> CET_CLASS.equals(item.getItemClass()))
