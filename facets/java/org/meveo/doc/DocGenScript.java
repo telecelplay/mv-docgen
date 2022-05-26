@@ -9,6 +9,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import org.meveo.admin.exception.BusinessException;
 import org.meveo.commons.utils.ParamBean;
@@ -82,11 +83,16 @@ public class DocGenScript extends Script {
       	//== loading module Readme.md and update
       	StringBuilder builder = new StringBuilder();
       	try{
-          	File filePath = GitHelper.getRepositoryDir(user,moduleCode);
-          	log.info("root dir path == {}",filePath.getPath());
-    		String text = new String ( Files.readAllBytes( Paths.get(filePath+"/README.md") ));
+          	File modulePath = GitHelper.getRepositoryDir(user,moduleCode);
+          	log.info("root dir path == {}",modulePath.getPath());
+          	String docFile = modulePath+"/README.md";
+          	Path filePath = Paths.get(docFile);
+    		String text = new String ( Files.readAllBytes( filePath ));
       		log.info("Readme.md text == {}",text);
           	builder.append(new Text("# "+moduleCode)).append("\n");
+          	FileWriter myWriter = new FileWriter(new File(docFile));
+      		myWriter.write(builder.toString());
+      		myWriter.close();
         } catch(IOException ex){
         	throw new BusinessException(ex);
         }
