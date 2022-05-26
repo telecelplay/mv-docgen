@@ -74,7 +74,13 @@ public class DocGenScript extends Script {
       	log.info("Module found: {}", module.getCode());
 		Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
-
+		
+      	try{
+    		String text = new String ( Files.readAllBytes( Paths.get("") ));
+      		log.info("Readme.md text == {}",text);
+        } catch(IOException ex){
+        	throw new BusinessException(ex);
+        }
         List<String> endpointCodes = moduleItems.stream()
 				.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
 				.map(entity -> entity.getItemCode())
