@@ -81,7 +81,7 @@ public class DocGenScript extends Script {
       	try{
           	File filePath = GitHelper.getRepositoryDir(user,"mv-paytech");
           	log.info("root dir path == {}",filePath.getPath());
-    		String text = new String ( Files.readAllBytes( Paths.get("README.md") ));
+    		String text = new String ( Files.readAllBytes( Paths.get(filePath+"/README.md") ));
       		log.info("Readme.md text == {}",text);
         } catch(IOException ex){
         	throw new BusinessException(ex);
