@@ -31,6 +31,9 @@ import org.meveo.model.scripts.Function;
 import org.meveo.service.git.GitHelper;
 
 import net.steppschuh.markdowngenerator.text.Text;
+import net.steppschuh.markdowngenerator.text.heading.Heading;
+import net.steppschuh.markdowngenerator.table.Table;
+import net.steppschuh.markdowngenerator.table.TableRow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +92,7 @@ public class DocGenScript extends Script {
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
       		log.info("Readme.md text == {}",text);
-          	builder.append(new Text("# "+module.getCode())).append("\n").append("\n");
+          	builder.append(new Heading(module.getCode(),1)).append("\n").append("\n");
           	builder.append(new Text(module.getDescription())).append("\n");
         } catch(IOException ex){
         	throw new BusinessException(ex);
@@ -99,24 +102,35 @@ public class DocGenScript extends Script {
 				.map(entity -> entity.getItemCode())
 				.collect(Collectors.toList());
        	log.info("endpointCodes == {}",endpointCodes);
+      	if(endpointCodes != null && endpointCodes.size()>0){
+        }
 		endpointCodes.forEach(c -> {
         	log.info("endpoint code == {}",c);
             Endpoint endpoint = endpointService.findByCode(c);
             if(endpoint == null){
             	log.info("endpoint not found");
             }
+          	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
+        	if(scriptInstance == null){
+        		log.info("script instance is null");
+        	} else {
+        		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
+              	
+              	builder.append(new Heading("Rest Service",3)).append("\n");
+          	
+          		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+            		.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
+              	tableBuilder.addRow(scriptInstance.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),scriptInstance.getDescription());
+              	
+              	builder.append(new Text(tableBuilder.toString())).append("\n");
+            }
+          	
             log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
             log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
             endpoint.getParametersMapping().forEach(f -> {
             	log.info("field name == {}",f.getParameterName());
         	});
 
-        	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
-        	if(scriptInstance == null){
-        		log.info("script instance is null");
-        	} else {
-        		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
-            }
         });
          
         //List<String> scriptInstanceIds = moduleItems.stream()
