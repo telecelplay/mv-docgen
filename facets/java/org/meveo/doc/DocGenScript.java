@@ -77,7 +77,7 @@ public class DocGenScript extends Script {
 		
       	//== loading module Readme.md and update
       	try{
-    		String text = new String ( Files.readAllBytes( Paths.get("") ));
+    		String text = new String ( Files.readAllBytes( Paths.get("/mv-paytech/README.md") ));
       		log.info("Readme.md text == {}",text);
         } catch(IOException ex){
         	throw new BusinessException(ex);
