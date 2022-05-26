@@ -76,7 +76,7 @@ public class DocGenScript extends Script {
           throw new BusinessException("{} module not found.",moduleCode);
         }
 		
-      	log.info("Module found: {}", module.getCode());
+      	log.info("Module found: {}, desc: {}", module.getCode(),module.getDescription());
 		Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 		
