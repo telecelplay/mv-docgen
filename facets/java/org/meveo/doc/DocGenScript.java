@@ -85,14 +85,12 @@ public class DocGenScript extends Script {
       	try{
           	File modulePath = GitHelper.getRepositoryDir(user,moduleCode);
           	log.info("root dir path == {}",modulePath.getPath());
-          	String docFile = modulePath+"/README.md";
-          	Path filePath = Paths.get(docFile);
-    		String text = new String ( Files.readAllBytes( filePath ));
+          	String filePath = modulePath+"/README.md";
+    		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
       		log.info("Readme.md text == {}",text);
           	builder.append(new Text("# "+moduleCode)).append("\n");
-          	FileWriter myWriter = new FileWriter(new File(docFile));
-      		myWriter.write(builder.toString());
-      		myWriter.close();
+          	//== write to file
+          	writeToFile(filePath,builder.toString());
         } catch(IOException ex){
         	throw new BusinessException(ex);
         }
@@ -143,5 +141,16 @@ public class DocGenScript extends Script {
 			.map(entity -> entity.getItemCode())
 			.collect(Collectors.toList());
 		log.info("entityCodes: {}", entityCodes);
-	}		
+	}	
+  
+  	private void writeToFile(String filePath,String text){
+      try{
+            //== updating the file
+          	FileWriter myWriter = new FileWriter(new File(filePath));
+      		myWriter.write(text);
+      		myWriter.close();
+        } catch(IOException ex){
+        	log.error(ex.getMessage());
+        }
+    }
 }
