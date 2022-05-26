@@ -88,7 +88,8 @@ public class DocGenScript extends Script {
           	String filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
       		log.info("Readme.md text == {}",text);
-          	builder.append(new Text("# "+moduleCode)).append("\n");
+          	builder.append(new Text("# "+module.getCode())).append("\n").append("\n");
+          	builder.append(new Text(module.getDescription())).append("\n");
           	//== write to file
           	writeToFile(filePath,builder.toString());
         } catch(IOException ex){
