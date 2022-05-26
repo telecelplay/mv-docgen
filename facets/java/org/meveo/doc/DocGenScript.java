@@ -125,18 +125,18 @@ public class DocGenScript extends Script {
           	//== endpoint input fields
           	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
           	if(endpoint.getParametersMapping().size()>0){
-            	List<Object> items = new ArrayList();
-    			items.add("Input Fields");
-          		builder.append(new UnorderedList<>(items).toString()).append("\n");
-              
+            	//List<Object> items = new ArrayList();
+    			//items.add("Input Fields");
+          		//builder.append(new UnorderedList<>(items).toString()).append("\n");
+              	builder.append(new Text("*Input Fields:")).append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
             		.withRowLimit(endpointCodes.size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
 	            endpoint.getParametersMapping().forEach(f -> {
     	        	log.info("field name == {}",f.getParameterName());
-                  	inputFieldsTableBuilder.addRow(f.getParameterName(),"","","","");
+                  	inputFieldsTableBuilder.addRow(f.getParameterName(),"",f.getDefaultValue(),"","");
         		});
-				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n");
+				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
           
           	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
@@ -149,7 +149,7 @@ public class DocGenScript extends Script {
           	
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
             		.withRowLimit(endpointCodes.size()).addRow("Type", "Name","Path","Description");
-              	tableBuilder.addRow("Meveo Function",endpoint.getCode(),"",scriptInstance.getDescription());
+              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),"",scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
