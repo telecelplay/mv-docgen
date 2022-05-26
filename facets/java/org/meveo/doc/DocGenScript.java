@@ -75,6 +75,7 @@ public class DocGenScript extends Script {
 		Set<MeveoModuleItem> moduleItems = module.getModuleItems();
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 		
+      	//== loading module Readme.md and update
       	try{
     		String text = new String ( Files.readAllBytes( Paths.get("") ));
       		log.info("Readme.md text == {}",text);
