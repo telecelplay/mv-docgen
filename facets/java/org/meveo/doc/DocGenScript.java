@@ -117,7 +117,7 @@ public class DocGenScript extends Script {
           	
           	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
             	.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
-            endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),"");
+            endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),endpoint.getDescription());
               	
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n");          	
             log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
