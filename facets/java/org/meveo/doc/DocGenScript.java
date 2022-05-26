@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -34,6 +35,7 @@ import net.steppschuh.markdowngenerator.text.Text;
 import net.steppschuh.markdowngenerator.text.heading.Heading;
 import net.steppschuh.markdowngenerator.table.Table;
 import net.steppschuh.markdowngenerator.table.TableRow;
+import net.steppschuh.markdowngenerator.list.UnorderedList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,26 +112,47 @@ public class DocGenScript extends Script {
             if(endpoint == null){
             	log.info("endpoint not found");
             }
+			//== adding Rest Service 
+          	builder.append(new Heading("Rest Service",3)).append("\n");
+          	
+          	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+            	.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
+            endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),"");
+              	
+            builder.append(new Text(endpointTableBuilder.build().toString())).append("\n");          	
+            log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+            
+          	//== endpoint input fields
+          	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+          	if(endpoint.getParametersMapping().size()>0){
+            	List<Object> items = new ArrayList();
+    			items.add("Input Fields");
+          		builder.append(new UnorderedList<>(items)).append("\n");
+              
+              	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+            		.withRowLimit(endpointCodes.size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
+
+	            endpoint.getParametersMapping().forEach(f -> {
+    	        	log.info("field name == {}",f.getParameterName());
+                  	inputFieldsTableBuilder.addRow(f.getParameterName(),"","","","");
+        		});
+				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n");
+            }
+          
           	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
         	if(scriptInstance == null){
         		log.info("script instance is null");
         	} else {
         		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
               	
-              	builder.append(new Heading("Rest Service",3)).append("\n");
+              	builder.append(new Heading("Meveo Function",3)).append("\n");
           	
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
-            		.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
-              	tableBuilder.addRow(scriptInstance.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),scriptInstance.getDescription());
+            		.withRowLimit(endpointCodes.size()).addRow("Type", "Name","Path","Description");
+              	tableBuilder.addRow("Meveo Function",endpoint.getCode(),"",scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
-          	
-            log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
-            log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
-            endpoint.getParametersMapping().forEach(f -> {
-            	log.info("field name == {}",f.getParameterName());
-        	});
 
         });
          
