@@ -122,7 +122,7 @@ public class DocGenScript extends Script {
             		.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
               	tableBuilder.addRow(scriptInstance.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),scriptInstance.getDescription());
               	
-              	builder.append(new Text(tableBuilder.toString())).append("\n");
+              	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
           	
             log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
