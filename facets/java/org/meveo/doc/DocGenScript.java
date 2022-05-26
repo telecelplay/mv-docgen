@@ -27,6 +27,7 @@ import org.meveo.service.admin.impl.MeveoModuleService;
 import org.meveo.service.crm.impl.CurrentUserProducer;
 import org.meveo.service.script.Script;
 import org.meveo.model.scripts.Function;
+import org.meveo.service.git.GitHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,7 @@ public class DocGenScript extends Script {
 		MeveoUser user = currentUserProducer.getCurrentUser();
 		ParamBean appConfig = paramBeanFactory.getInstance();
 
+
 		log.info("user: {}", user);
 
 		if (module == null) {
@@ -77,6 +79,8 @@ public class DocGenScript extends Script {
 		
       	//== loading module Readme.md and update
       	try{
+          	File filePath = GitHelper.getRepositoryDir(user,"mv-paytech");
+          	log.info("root dir path == {}",filePath.getPath());
     		String text = new String ( Files.readAllBytes( Paths.get("README.md") ));
       		log.info("Readme.md text == {}",text);
         } catch(IOException ex){
