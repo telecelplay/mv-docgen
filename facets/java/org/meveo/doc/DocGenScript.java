@@ -127,7 +127,7 @@ public class DocGenScript extends Script {
           	if(endpoint.getParametersMapping().size()>0){
             	List<Object> items = new ArrayList();
     			items.add("Input Fields");
-          		builder.append(new UnorderedList<>(items)).append("\n");
+          		builder.append(new UnorderedList<>(items).toString()).append("\n");
               
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
             		.withRowLimit(endpointCodes.size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
