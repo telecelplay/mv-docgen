@@ -29,6 +29,8 @@ import org.meveo.service.script.Script;
 import org.meveo.model.scripts.Function;
 import org.meveo.service.git.GitHelper;
 
+import net.steppschuh.markdowngenerator.text.Text;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +80,13 @@ public class DocGenScript extends Script {
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 		
       	//== loading module Readme.md and update
+      	StringBuilder builder = new StringBuilder();
       	try{
-          	File filePath = GitHelper.getRepositoryDir(user,"mv-paytech");
+          	File filePath = GitHelper.getRepositoryDir(user,moduleCode);
           	log.info("root dir path == {}",filePath.getPath());
     		String text = new String ( Files.readAllBytes( Paths.get(filePath+"/README.md") ));
       		log.info("Readme.md text == {}",text);
+          	builder.append(new Text("# "+moduleCode)).append("\n");
         } catch(IOException ex){
         	throw new BusinessException(ex);
         }
