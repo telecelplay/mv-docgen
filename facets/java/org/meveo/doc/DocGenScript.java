@@ -62,58 +62,60 @@ public class DocGenScript extends Script {
 
 		log.info("user: {}", user);
 
-		if (module != null) {
-			log.info("Module found: {}", module.getCode());
-			Set<MeveoModuleItem> moduleItems = module.getModuleItems();
-			moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
-
-          	List<String> endpointCodes = moduleItems.stream()
-					.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemCode())
-					.collect(Collectors.toList());
-            log.info("endpointCodes == {}",endpointCodes);
-			endpointCodes.forEach(c -> {
-              	log.info("endpoint code == {}",c);
-              	Endpoint endpoint = endpointService.findByCode(c);
-              	if(endpoint == null){
-                  log.info("endpoint not found");
-                }
-              	log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
-              	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
-            	endpoint.getParametersMapping().forEach(f -> {
-                  log.info("field name == {}",f.getParameterName());
-                });
-
-              	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
-              	if(scriptInstance == null){
-                  log.info("script instance is null");
-                } else {
-                  log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
-                }
-            });
-         
-          	//List<String> scriptInstanceIds = moduleItems.stream()
-			//		.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
-			//		.map(entity -> entity.getService().getId())
-			//		.collect(Collectors.toList());
-			//scriptInstanceCodes.forEach(i -> {
-            //  	log.info("scriptInstance id == {}",i);
-            // 	ScriptInstance scriptInstance = scriptInstanceService.findById(i);
-            //  	if(scriptInstance == null){
-            //      log.info("scrip instance not found");
-            //    }
-              	//log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
-              	//log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
-            	//endpoint.getParametersMapping().forEach(f -> {
-                //  log.info("field name == {}",f.getParameterName());
-                //});
-            //});
-          
-          	List<String> entityCodes = moduleItems.stream()
-					.filter(item -> CET_CLASS.equals(item.getItemClass()))
-					.map(entity -> entity.getItemCode())
-					.collect(Collectors.toList());
-			log.info("entityCodes: {}", entityCodes);
+		if (module == null) {
+          throw new BusinessException("{} module not found.",moduleCode);
         }
-	}	
+		
+      	log.info("Module found: {}", module.getCode());
+		Set<MeveoModuleItem> moduleItems = module.getModuleItems();
+		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
+
+        List<String> endpointCodes = moduleItems.stream()
+				.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
+				.map(entity -> entity.getItemCode())
+				.collect(Collectors.toList());
+       	log.info("endpointCodes == {}",endpointCodes);
+		endpointCodes.forEach(c -> {
+        	log.info("endpoint code == {}",c);
+            Endpoint endpoint = endpointService.findByCode(c);
+            if(endpoint == null){
+            	log.info("endpoint not found");
+            }
+            log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+            log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+            endpoint.getParametersMapping().forEach(f -> {
+            	log.info("field name == {}",f.getParameterName());
+        	});
+
+        	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
+        	if(scriptInstance == null){
+        		log.info("script instance is null");
+        	} else {
+        		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
+            }
+        });
+         
+        //List<String> scriptInstanceIds = moduleItems.stream()
+		//		.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
+		//		.map(entity -> entity.getService().getId())
+		//		.collect(Collectors.toList());
+		//scriptInstanceCodes.forEach(i -> {
+        //  	log.info("scriptInstance id == {}",i);
+        // 	ScriptInstance scriptInstance = scriptInstanceService.findById(i);
+        //  	if(scriptInstance == null){
+        //      log.info("scrip instance not found");
+        //    }
+            //log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
+            //log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+            //endpoint.getParametersMapping().forEach(f -> {
+            //  log.info("field name == {}",f.getParameterName());
+            //});
+        //});
+          
+        List<String> entityCodes = moduleItems.stream()
+			.filter(item -> CET_CLASS.equals(item.getItemClass()))
+			.map(entity -> entity.getItemCode())
+			.collect(Collectors.toList());
+		log.info("entityCodes: {}", entityCodes);
+	}		
 }
