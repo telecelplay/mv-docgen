@@ -36,6 +36,7 @@ import net.steppschuh.markdowngenerator.text.heading.Heading;
 import net.steppschuh.markdowngenerator.table.Table;
 import net.steppschuh.markdowngenerator.table.TableRow;
 import net.steppschuh.markdowngenerator.list.UnorderedList;
+import net.steppschuh.markdowngenerator.link.Link;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +87,7 @@ public class DocGenScript extends Script {
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 		
       	//== loading module Readme.md and update
-      	String filePath = "";
+      	String filePath;
       	StringBuilder builder = new StringBuilder();
       	try{
           	File modulePath = GitHelper.getRepositoryDir(user,moduleCode);
@@ -144,12 +145,14 @@ public class DocGenScript extends Script {
         		log.info("script instance is null");
         	} else {
         		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
-              	
+         		     	
               	builder.append(new Heading("Meveo Function",3)).append("\n");
-          	
+          		
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
-              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),"",scriptInstance.getDescription());
+              
+              	String scriptPath = scriptInstance.getCode().replaceAll(".","/");
+              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link("","https://github.com/telecelplay/"+moduleCode+"/facets/java/"+scriptPath),scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
