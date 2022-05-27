@@ -117,12 +117,9 @@ public class DocGenScript extends Script {
               	
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n").append("\n");          	
             
-          	List<Object> items = new ArrayList();
           	//== generating endpoint input fields
           	if(endpoint.getService().getInputs().size()>0){
-    			items.add("Input Fields:");
-
-              	//builder.append(new Text("* Input Fields:")).append("\n").append("\n");
+              	builder.append(new Text("* Input Fields:")).append("\n").append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getInputs().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
@@ -132,13 +129,11 @@ public class DocGenScript extends Script {
                   	inputFieldsTableBuilder.addRow(f.getName(),f.getType(),defaultValue,"","");
         		});
 
-				//builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
-              	items.add(inputFieldsTableBuilder.build().toString());
+				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
 			//== generating output field table          
           	if(endpoint.getService().getOutputs().size()>0){
-              	items.add("Output Fields:");
-              	//builder.append(new Text("* Output Fields:")).append("\n").append("\n");
+              	builder.append(new Text("* Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getOutputs().size()+1).addRow("Object", "Type","Description");
               	endpoint.getService().getOutputs().forEach( o -> {
@@ -146,10 +141,8 @@ public class DocGenScript extends Script {
                   outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription());
                 });
 
-				//builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
-            	items.add(outputFieldsTableBuilder.build().toString());
-            }
-			builder.append(new UnorderedList<>(items).toString()).append("\n");	
+				builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
+            }	
           
           	//== generating Meveo function
           	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
