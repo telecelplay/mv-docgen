@@ -88,6 +88,9 @@ public class DocGenScript extends Script {
       	//== loading module Readme.md and update
       	File modulePath;
       	String filePath;
+        String gitPath = module.getGitRepository().getRemoteOrigin();
+        gitPath = StringUtils.isBlank(gitPath)? "https://github.com/telcelplay/"+moduleCode : gitPath.substring(0,gitPath.length()-4);
+      	log.info("module git path == {}",gitPath);
       	StringBuilder builder = new StringBuilder();
       	try{
           	modulePath = GitHelper.getRepositoryDir(user,moduleCode);
@@ -153,11 +156,9 @@ public class DocGenScript extends Script {
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               
-              	log.info("module git repo remote origin == {}", module.getGitRepository().getRemoteOrigin());
-				log.info("module git current branch == {}", module.getGitRepository().getCurrentBranch());
-              	log.info("module git default branch == {}", module.getGitRepository().getDefaultBranch());
               	String scriptPath = scriptInstance.getCode().replace(".","/");
-              	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
+
+              	String absScriptPath = module.getGitRepository().getDefaultBranch()+"/facets/java/"+scriptPath+".java";
               	String scriptFilePath = "https://github.com/"+absScriptPath;
               	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
@@ -168,7 +169,7 @@ public class DocGenScript extends Script {
       	
       	//== generating testsuite
         String postmanDirPath = "/facets/postman/";
-      	String postmanGitPath = "/tree/master"+postmanDirPath;
+      	String postmanGitPath = module.getGitRepository().getDefaultBranch()+postmanDirPath;
       	File postmanDir = new File(modulePath+postmanDirPath);
       	if(postmanDir.isDirectory()){
           	log.info("postman dir found");
@@ -178,8 +179,8 @@ public class DocGenScript extends Script {
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
               	for(File test: tests){
-                  	String gitLinkText = "telecelplay/"+moduleCode+postmanGitPath+test.getName();
-                  	String gitLinkPath = "https://github.com/"+gitLinkText;
+                  	String gitLinkText = moduleCode+postmanGitPath+test.getName();
+                  	String gitLinkPath = gitPath+gitLinkText;
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
               	
