@@ -76,9 +76,6 @@ public class DocGenScript extends Script {
 		MeveoUser user = currentUserProducer.getCurrentUser();
 		ParamBean appConfig = paramBeanFactory.getInstance();
 
-
-		log.info("user: {}", user);
-
 		if (module == null) {
           throw new BusinessException("{} module not found.",moduleCode);
         }
@@ -92,7 +89,6 @@ public class DocGenScript extends Script {
       	StringBuilder builder = new StringBuilder();
       	try{
           	File modulePath = GitHelper.getRepositoryDir(user,moduleCode);
-          	log.info("root dir path == {}",modulePath.getPath());
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
           	builder.append(new Heading(module.getCode(),1)).append("\n");
