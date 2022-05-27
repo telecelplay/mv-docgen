@@ -160,7 +160,6 @@ public class DocGenScript extends Script {
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
-
         });
         
       	//== CETs
