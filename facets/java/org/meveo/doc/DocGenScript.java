@@ -100,7 +100,7 @@ public class DocGenScript extends Script {
 				.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
 				.map(entity -> entity.getItemCode())
 				.collect(Collectors.toList());
-
+		//== module endpoints
       	endpointCodes.forEach(c -> {
         	log.info("endpoint code == {}",c);
             Endpoint endpoint = endpointService.findByCode(c);
@@ -126,7 +126,6 @@ public class DocGenScript extends Script {
             		.withRowLimit(endpoint.getParametersMapping().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
 	            endpoint.getParametersMapping().forEach(f -> {
-    	        	log.info("field name == {}",f.getParameterName());
                   	inputFieldsTableBuilder.addRow(f.getParameterName(),"",f.getDefaultValue(),"","");
         		});
 				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
@@ -154,12 +153,14 @@ public class DocGenScript extends Script {
               	String scriptPath = scriptInstance.getCode().replace(".","/");
               	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
               	String scriptFilePath = "https://github.com/"+absScriptPath;
-              	log.info("script file full path == {}",scriptFilePath);
               	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
+          
+          	//== generating testsuite
+          	log.info("test suite == {}",endpoint.getService().getTestSuite());
         });
         
       	//== CETs
