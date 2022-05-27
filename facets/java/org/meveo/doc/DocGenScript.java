@@ -147,7 +147,7 @@ public class DocGenScript extends Script {
               	
               	builder.append(new Heading("Meveo Function",3)).append("\n");
           	
-          		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+          		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),"",scriptInstance.getDescription());
               	
