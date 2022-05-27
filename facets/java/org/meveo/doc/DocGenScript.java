@@ -115,7 +115,7 @@ public class DocGenScript extends Script {
 			//== adding Rest Service 
           	builder.append(new Heading("Rest Service",3)).append("\n");
           	
-          	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+          	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             	.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
             endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),endpoint.getDescription());
               	
@@ -130,7 +130,7 @@ public class DocGenScript extends Script {
           		//builder.append(new UnorderedList<>(items).toString()).append("\n");
               	builder.append(new Text("*Input Fields:")).append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            		.withRowLimit(endpointCodes.size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
+            		.withRowLimit(endpoint.getParametersMapping().size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
 	            endpoint.getParametersMapping().forEach(f -> {
     	        	log.info("field name == {}",f.getParameterName());
@@ -148,7 +148,7 @@ public class DocGenScript extends Script {
               	builder.append(new Heading("Meveo Function",3)).append("\n");
           	
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
-            		.withRowLimit(endpointCodes.size()).addRow("Type", "Name","Path","Description");
+            		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),"",scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
