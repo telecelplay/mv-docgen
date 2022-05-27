@@ -161,6 +161,9 @@ public class DocGenScript extends Script {
           
           	//== generating testsuite
           	log.info("test suite == {}",endpoint.getService().getTestSuite());
+          
+          	//== generating input field
+          	endpoint.getService().getInputs().forEach(i -> log.info("service input fields name == {}, type=={}, desc=={}",i.getName(),i.getType(),i.getDescription()));
         });
         
       	//== CETs
