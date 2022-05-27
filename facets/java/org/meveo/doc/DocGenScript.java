@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -192,6 +193,7 @@ public class DocGenScript extends Script {
   
   	private TSParameterMapping findTSParameterMapping(List<TSParameterMapping> params, String fieldName){
       log.info("field name == {}",fieldName);
-      return params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst().get();
+      Optional<TSParameterMapping> param = params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst();
+      return param.isPresent()?param.get():null;
     }
 }
