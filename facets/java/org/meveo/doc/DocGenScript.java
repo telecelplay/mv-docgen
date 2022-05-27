@@ -148,11 +148,13 @@ public class DocGenScript extends Script {
         	if(scriptInstance == null){
         		log.error("script instance is null");
         	} else {         		     	
-              	builder.append(new Heading("Meveo Function",2)).append("\n");
+              	builder.append(new Heading("Meveo Function",3)).append("\n");
           		
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               
+              	log.info("module git repo remote origin == {}", module.getGitRepository().getRemoteOrigin());
+				log.info("module git branch == {}", module.getGitRepository().getCurrentBranch());
               	String scriptPath = scriptInstance.getCode().replace(".","/");
               	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
               	String scriptFilePath = "https://github.com/"+absScriptPath;
@@ -175,7 +177,7 @@ public class DocGenScript extends Script {
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
               	for(File test: tests){
-                  	String gitLinkText = "telecelplay/"+moduleCode+postmanDirPath+test.getName();
+                  	String gitLinkText = "telecelplay/"+moduleCode+postmanGitPath+test.getName();
                   	String gitLinkPath = "https://github.com/"+gitLinkText;
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
