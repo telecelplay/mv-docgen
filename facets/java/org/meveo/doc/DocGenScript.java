@@ -192,6 +192,6 @@ public class DocGenScript extends Script {
   
   	private TSParameterMapping findTSParameterMapping(List<TSParameterMapping> params, String fieldName){
       log.info("field name == {}",fieldName);
-      return (TSParameterMapping)params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst().orElseThrow();
+      return params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst().get();
     }
 }
