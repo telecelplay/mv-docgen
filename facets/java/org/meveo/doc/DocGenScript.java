@@ -95,7 +95,6 @@ public class DocGenScript extends Script {
           	log.info("root dir path == {}",modulePath.getPath());
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
-      		log.info("Readme.md text == {}",text);
           	builder.append(new Heading(module.getCode(),1)).append("\n");
           	builder.append(new Text(module.getDescription())).append("\n");
         } catch(IOException ex){
@@ -105,16 +104,14 @@ public class DocGenScript extends Script {
 				.filter(item -> ENDPOINT_CLASS.equals(item.getItemClass()))
 				.map(entity -> entity.getItemCode())
 				.collect(Collectors.toList());
-       	log.info("endpointCodes == {}",endpointCodes);
-      	if(endpointCodes != null && endpointCodes.size()>0){
-        }
-		endpointCodes.forEach(c -> {
+
+      	endpointCodes.forEach(c -> {
         	log.info("endpoint code == {}",c);
             Endpoint endpoint = endpointService.findByCode(c);
             if(endpoint == null){
-            	log.info("endpoint not found");
+            	log.error("endpoint not found");
             }
-			//== adding Rest Service 
+			//== generating Rest Service table 
           	builder.append(new Heading("Rest Service",3)).append("\n");
           	
           	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
@@ -122,10 +119,8 @@ public class DocGenScript extends Script {
             endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),endpoint.getDescription());
               	
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n").append("\n");          	
-            log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
             
-          	//== endpoint input fields
-          	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
+          	//== generating endpoint input fields
           	if(endpoint.getParametersMapping().size()>0){
             	//List<Object> items = new ArrayList();
     			//items.add("Input Fields");
@@ -140,7 +135,7 @@ public class DocGenScript extends Script {
         		});
 				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
-          
+			//== generating output field table          
           	if(StringUtils.isNotBlank(endpoint.getReturnedVariableName())){
               	builder.append(new Text("*Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
@@ -150,12 +145,11 @@ public class DocGenScript extends Script {
 				builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
           
+          	//== generating Meveo function
           	ScriptInstance scriptInstance = scriptInstanceService.findById(endpoint.getService().getId());
         	if(scriptInstance == null){
-        		log.info("script instance is null");
-        	} else {
-        		log.info("script instance id == {}, code=={}, desc=={}",scriptInstance.getId(),scriptInstance.getCode(),scriptInstance.getDescription());
-         		     	
+        		log.error("script instance is null");
+        	} else {         		     	
               	builder.append(new Heading("Meveo Function",3)).append("\n");
           		
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
@@ -172,24 +166,8 @@ public class DocGenScript extends Script {
             }
 
         });
-         
-        //List<String> scriptInstanceIds = moduleItems.stream()
-		//		.filter(item -> SCRIPT_INSTANCE_CLASS.equals(item.getItemClass()))
-		//		.map(entity -> entity.getService().getId())
-		//		.collect(Collectors.toList());
-		//scriptInstanceCodes.forEach(i -> {
-        //  	log.info("scriptInstance id == {}",i);
-        // 	ScriptInstance scriptInstance = scriptInstanceService.findById(i);
-        //  	if(scriptInstance == null){
-        //      log.info("scrip instance not found");
-        //    }
-            //log.info("endpoint method == {}, content-type == {}, url == {}, ",endpoint.getMethod().getLabel(),endpoint.getContentType(),endpoint.getEndpointUrl());
-            //log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
-            //endpoint.getParametersMapping().forEach(f -> {
-            //  log.info("field name == {}",f.getParameterName());
-            //});
-        //});
-          
+        
+      	//== CETs
         List<String> entityCodes = moduleItems.stream()
 			.filter(item -> CET_CLASS.equals(item.getItemClass()))
 			.map(entity -> entity.getItemCode())
