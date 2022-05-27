@@ -121,7 +121,7 @@ public class DocGenScript extends Script {
             	//List<Object> items = new ArrayList();
     			//items.add("Input Fields");
           		//builder.append(new UnorderedList<>(items).toString()).append("\n");
-              	builder.append(new Text("*Input Fields:")).append("\n").append("\n");
+              	builder.append(new Text("* Input Fields:")).append("\n").append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getParametersMapping().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
@@ -133,7 +133,7 @@ public class DocGenScript extends Script {
             }
 			//== generating output field table          
           	if(StringUtils.isNotBlank(endpoint.getReturnedVariableName())){
-              	builder.append(new Text("*Output Fields:")).append("\n").append("\n");
+              	builder.append(new Text("* Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Object", "Type","Description");
               	outputFieldsTableBuilder.addRow(endpoint.getReturnedVariableName(),"","");
