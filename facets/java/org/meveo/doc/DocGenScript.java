@@ -137,7 +137,6 @@ public class DocGenScript extends Script {
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getOutputs().size()+1).addRow("Object", "Type","Description");
               	endpoint.getService().getOutputs().forEach( o -> {
-                  log.info("output field name =={}, type=={}, desc=={}",o.getName(),o.getType(),o.getDescription());
                   outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription());
                 });
 
