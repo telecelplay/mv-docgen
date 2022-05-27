@@ -159,7 +159,7 @@ public class DocGenScript extends Script {
               	String scriptPath = scriptInstance.getCode().replace(".","/");
 
               	String absScriptPath = module.getGitRepository().getDefaultBranch()+"/facets/java/"+scriptPath+".java";
-              	String scriptFilePath = gitPath+"/tree/"+absScriptPath;
+              	String scriptFilePath = gitPath+"/blob/"+absScriptPath;
               	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
               	
@@ -180,7 +180,7 @@ public class DocGenScript extends Script {
         			.withRowLimit(tests.length+1).addRow("Path");
               	for(File test: tests){
                   	String gitLinkText = moduleCode+postmanGitPath+test.getName();
-                  	String gitLinkPath = gitPath+"/tree/"+gitLinkText;
+                  	String gitLinkPath = gitPath+"/blob/"+gitLinkText;
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
               	
