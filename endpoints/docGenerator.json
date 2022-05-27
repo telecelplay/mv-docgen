@@ -1,0 +1,17 @@
+{
+  "code" : "docGenerator",
+  "description" : "Doc Generator Endpoint",
+  "secured" : true,
+  "checkPathParams" : true,
+  "serviceCode" : "org.meveo.doc.DocGenScript",
+  "synchronous" : true,
+  "method" : "POST",
+  "parameterMappings" : [ ],
+  "pathParameters" : [ "moduleCode" ],
+  "roles" : [ ],
+  "returnedVariableName" : "result",
+  "serializeResult" : false,
+  "contentType" : "application/json",
+  "basePath" : "module",
+  "path" : "/{moduleCode}/doc/gen"
+}
