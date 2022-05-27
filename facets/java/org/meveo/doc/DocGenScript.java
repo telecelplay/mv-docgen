@@ -128,9 +128,8 @@ public class DocGenScript extends Script {
 
               	endpoint.getService().getInputs().forEach(f -> {
                   	TSParameterMapping param = findTSParameterMapping(endpoint.getParametersMapping(),f.getName());
-                  	if(param != null){
-                  		inputFieldsTableBuilder.addRow(f.getName(),f.getType(),param.getDefaultValue(),"","");
-                    }
+                  	String defaultValue = (param == null)?"":param.getDefaultValue();
+                  	inputFieldsTableBuilder.addRow(f.getName(),f.getType(),defaultValue,"","");
         		});
 
 				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
@@ -140,7 +139,9 @@ public class DocGenScript extends Script {
               	builder.append(new Text("* Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getOutputs().size()).addRow("Object", "Type","Description");
-              	endpoint.getService().getOutputs().forEach( o -> outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription()));
+              	endpoint.getService().getOutputs().forEach( o -> {
+                  outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription());
+                });
 
 				builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
