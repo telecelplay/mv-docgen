@@ -164,9 +164,9 @@ public class DocGenScript extends Script {
         });
       	
       	//== generating testsuite
-        String dirPath = "/facets/postman/";
-      	String gitPath = "/tree/master"+dirPath;
-      	File postmanDir = new File(modulePath+dirPath);
+        String postmanDirPath = "/facets/postman/";
+      	String postmanGitPath = "/tree/master"+postmanDirPath;
+      	File postmanDir = new File(modulePath+postmanDirPath);
       	if(postmanDir.isDirectory()){
           	log.info("postman dir found");
           	File[] tests = postmanDir.listFiles();
@@ -175,10 +175,8 @@ public class DocGenScript extends Script {
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
               	for(File test: tests){
-                  	String gitLinkText = "telecelplay/"+moduleCode+dirPath+test.getName();
-                  	log.info("file link text == {}",gitLinkText);
+                  	String gitLinkText = "telecelplay/"+moduleCode+postmanDirPath+test.getName();
                   	String gitLinkPath = "https://github.com/"+gitLinkText;
-                  	log.info("file link Path == {}",gitLinkPath);
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
               	
@@ -208,7 +206,6 @@ public class DocGenScript extends Script {
     }
   
   	private TSParameterMapping findTSParameterMapping(List<TSParameterMapping> params, String fieldName){
-      log.info("field name param == {}",fieldName);
       Optional<TSParameterMapping> param = params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst();
       return param.isPresent()?param.get():null;
     }
