@@ -179,7 +179,7 @@ public class DocGenScript extends Script {
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
               	for(File test: tests){
-                  	String gitLinkText = moduleCode+postmanGitPath+test.getName();
+                  	String gitLinkText = postmanGitPath+test.getName();
                   	String gitLinkPath = gitPath+"/blob/"+gitLinkText;
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
