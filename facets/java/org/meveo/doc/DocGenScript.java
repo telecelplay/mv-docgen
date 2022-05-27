@@ -109,7 +109,7 @@ public class DocGenScript extends Script {
             	log.error("endpoint not found");
             }
 			//== generating Rest Service table 
-          	builder.append(new Heading("Rest Service",3)).append("\n");
+          	builder.append(new Heading("Rest Service",2)).append("\n");
           	
           	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             	.withRowLimit(endpointCodes.size()+1).addRow("Name", "Endpoint URL","Method","Description");
@@ -147,7 +147,7 @@ public class DocGenScript extends Script {
         	if(scriptInstance == null){
         		log.error("script instance is null");
         	} else {         		     	
-              	builder.append(new Heading("Meveo Function",3)).append("\n");
+              	builder.append(new Heading("Meveo Function",2)).append("\n");
           		
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
@@ -163,22 +163,16 @@ public class DocGenScript extends Script {
           
           	//== generating testsuite
           	log.info("test suite == {}",endpoint.getService().getTestSuite());
-		    /*if(scriptInstance == null){
-        		log.error("script instance is null");
-        	} else {         		     	
-              	builder.append(new Heading("Meveo Function",3)).append("\n");
+		    if(endpoint.getService().getTestSuite() != null){
+              	builder.append(new Heading("Postman Tests ",3)).append("\n");
           		
           		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               
-              	String scriptPath = scriptInstance.getCode().replace(".","/");
-              	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
-              	String scriptFilePath = "https://github.com/"+absScriptPath;
-              	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
-              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
+              	tableBuilder.addRow("","","","");
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
-            }*/          	
+            }          	
         });
         
       	//== CETs
