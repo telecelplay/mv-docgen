@@ -154,7 +154,8 @@ public class DocGenScript extends Script {
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               
               	log.info("module git repo remote origin == {}", module.getGitRepository().getRemoteOrigin());
-				log.info("module git branch == {}", module.getGitRepository().getCurrentBranch());
+				log.info("module git current branch == {}", module.getGitRepository().getCurrentBranch());
+              	log.info("module git default branch == {}", module.getGitRepository().getDefaultBranch());
               	String scriptPath = scriptInstance.getCode().replace(".","/");
               	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
               	String scriptFilePath = "https://github.com/"+absScriptPath;
