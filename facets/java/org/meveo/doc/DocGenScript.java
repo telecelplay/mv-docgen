@@ -152,7 +152,9 @@ public class DocGenScript extends Script {
             		.withRowLimit(2).addRow("Type", "Name","Path","Description");
               
               	String scriptPath = scriptInstance.getCode().replaceAll(".","/");
-              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link("","https://github.com/telecelplay/"+moduleCode+"/facets/java/"+scriptPath),scriptInstance.getDescription());
+              	String scriptFilePath = "https://github.com/telecelplay/"+moduleCode+"/facets/java/"+scriptPath;
+              	log.info("script file full path == {}",scriptFilePath);
+              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link("",scriptFilePath),scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
