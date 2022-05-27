@@ -86,10 +86,11 @@ public class DocGenScript extends Script {
 		moduleItems.stream().forEach(m -> log.info("module item code == {}, item class == {}",m.getItemCode(),m.getItemClass()));
 		
       	//== loading module Readme.md and update
+      	File modulePath;
       	String filePath;
       	StringBuilder builder = new StringBuilder();
       	try{
-          	File modulePath = GitHelper.getRepositoryDir(user,moduleCode);
+          	modulePath = GitHelper.getRepositoryDir(user,moduleCode);
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
           	builder.append(new Heading(module.getCode(),1)).append("\n");
@@ -160,21 +161,30 @@ public class DocGenScript extends Script {
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
-          
-          	//== generating testsuite
-          	log.info("test suite == {}",endpoint.getService().getTestSuite());
-		    if(endpoint.getService().getTestSuite() != null){
-              	builder.append(new Heading("Postman Tests ",3)).append("\n");
-          		
-          		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            		.withRowLimit(2).addRow("Type", "Name","Path","Description");
-              
-              	tableBuilder.addRow("","","","");
-              	
-              	builder.append(new Text(tableBuilder.build().toString())).append("\n");
-            }          	
         });
-        
+      	
+      	//== generating testsuite
+        String dirPath = "/facets/postman";
+      	String gitPath = "/tree/master"+dirPath;
+      	File postmanDir = new File(modulePath+dirPath);
+      	if(postmanDir.isDirectory()){
+          	log.info("postman dir found");
+          	File[] tests = postmanDir.listFiles();
+          	if(tests.length>0){
+        		builder.append(new Heading("Postman Tests ",2)).append("\n");          		
+        		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
+        			.withRowLimit(tests.length+1).addRow("Path");
+              	for(File test: tests){
+                  	String gitLinkText = "telecelplay/"+moduleCode+dirPath+test.getName();
+                  	log.info("file link text == {}",gitLinkText);
+                  	String gitLinkPath = "https://github.com/"+gitLinkText;
+                  	log.info("file link Path == {}",gitLinkPath);
+        			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
+                }
+              	
+        		builder.append(new Text(postmanTableBuilder.build().toString())).append("\n");
+            }
+        }
       	//== CETs
         List<String> entityCodes = moduleItems.stream()
 			.filter(item -> CET_CLASS.equals(item.getItemClass()))
