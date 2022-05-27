@@ -106,9 +106,9 @@ public class DocGenScript extends Script {
 				.map(entity -> entity.getItemCode())
 				.collect(Collectors.toList());
 		//== module endpoints
-      	endpointCodes.forEach(c -> {
-        	log.info("endpoint code == {}",c);
-            Endpoint endpoint = endpointService.findByCode(c);
+      	for(String code : endpointCodes){
+        	log.info("endpoint code == {}",code);
+            Endpoint endpoint = endpointService.findByCode(code);
             if(endpoint == null){
             	log.error("endpoint not found");
             }
@@ -159,13 +159,13 @@ public class DocGenScript extends Script {
               	String scriptPath = scriptInstance.getCode().replace(".","/");
 
               	String absScriptPath = module.getGitRepository().getDefaultBranch()+"/facets/java/"+scriptPath+".java";
-              	String scriptFilePath = "https://github.com/"+absScriptPath;
+              	String scriptFilePath = gitPath+absScriptPath;
               	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
               	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
               	
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
-        });
+        }
       	
       	//== generating testsuite
         String postmanDirPath = "/facets/postman/";
