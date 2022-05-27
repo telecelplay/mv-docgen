@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import java.io.*;
@@ -116,10 +116,11 @@ public class DocGenScript extends Script {
             endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),endpoint.getDescription());
               	
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n").append("\n");          	
-            
           	//== generating endpoint input fields
           	if(endpoint.getService().getInputs().size()>0){
-              	builder.append(new Text("* Input Fields:")).append("\n").append("\n");
+              	List<Object> items = Arrays.asList("Input Fields");
+              	builder.append(new UnorderedList<>(items)).append("\n").append("\n");
+              	//builder.append(new Text("* Input Fields:")).append("\n").append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getInputs().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
@@ -128,19 +129,21 @@ public class DocGenScript extends Script {
                   	String defaultValue = (param == null)?"":param.getDefaultValue();
                   	inputFieldsTableBuilder.addRow(f.getName(),f.getType(),defaultValue,"","");
         		});
-
-				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
+	
+				builder.append(new Text("&nbsp;"+inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
 			//== generating output field table          
           	if(endpoint.getService().getOutputs().size()>0){
-              	builder.append(new Text("* Output Fields:")).append("\n").append("\n");
+              	List<Object> items = Arrays.asList("Output Fields");
+              	builder.append(new UnorderedList<>(items)).append("\n").append("\n");
+              	//builder.append(new Text("* Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
             		.withRowLimit(endpoint.getService().getOutputs().size()+1).addRow("Object", "Type","Description");
               	endpoint.getService().getOutputs().forEach( o -> {
                   outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription());
                 });
 
-				builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
+				builder.append(new Text("&nbsp;"+outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }	
           
           	//== generating Meveo function
@@ -164,7 +167,22 @@ public class DocGenScript extends Script {
           
           	//== generating testsuite
           	log.info("test suite == {}",endpoint.getService().getTestSuite());
-          
+		    /*if(scriptInstance == null){
+        		log.error("script instance is null");
+        	} else {         		     	
+              	builder.append(new Heading("Meveo Function",3)).append("\n");
+          		
+          		Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
+            		.withRowLimit(2).addRow("Type", "Name","Path","Description");
+              
+              	String scriptPath = scriptInstance.getCode().replace(".","/");
+              	String absScriptPath = "telecelplay/"+moduleCode+"/tree/master/facets/java/"+scriptPath+".java";
+              	String scriptFilePath = "https://github.com/"+absScriptPath;
+              	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
+              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
+              	
+              	builder.append(new Text(tableBuilder.build().toString())).append("\n");
+            }*/          	
         });
         
       	//== CETs
