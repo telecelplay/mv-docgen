@@ -164,7 +164,7 @@ public class DocGenScript extends Script {
         });
       	
       	//== generating testsuite
-        String dirPath = "/facets/postman";
+        String dirPath = "/facets/postman/";
       	String gitPath = "/tree/master"+dirPath;
       	File postmanDir = new File(modulePath+dirPath);
       	if(postmanDir.isDirectory()){
