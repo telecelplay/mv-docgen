@@ -117,25 +117,29 @@ public class DocGenScript extends Script {
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n").append("\n");          	
             
           	//== generating endpoint input fields
-          	if(endpoint.getParametersMapping().size()>0){
+          	if(endpoint.getService().getInputs().size()>0){
             	//List<Object> items = new ArrayList();
     			//items.add("Input Fields");
           		//builder.append(new UnorderedList<>(items).toString()).append("\n");
               	builder.append(new Text("* Input Fields:")).append("\n").append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            		.withRowLimit(endpoint.getParametersMapping().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
+            		.withRowLimit(endpoint.getService().getInputs().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
-	            endpoint.getParametersMapping().forEach(f -> {
-                  	inputFieldsTableBuilder.addRow(f.getParameterName(),"",f.getDefaultValue(),"","");
+              	endpoint.getService().getInputs().forEach(f -> {
+                  	TSParameterMapping param = findTSParameterMapping(endpoint.getParametersMapping(),f.getName());
+                  	if(param != null){
+                  		inputFieldsTableBuilder.addRow(f.getName(),f.getType(),param.getDefaultValue(),"","");
+                    }
         		});
+
 				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
 			//== generating output field table          
-          	if(StringUtils.isNotBlank(endpoint.getReturnedVariableName())){
+          	if(endpoint.getService().getOutputs().size()>0){
               	builder.append(new Text("* Output Fields:")).append("\n").append("\n");
               	Table.Builder outputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            		.withRowLimit(2).addRow("Object", "Type","Description");
-              	outputFieldsTableBuilder.addRow(endpoint.getReturnedVariableName(),"","");
+            		.withRowLimit(endpoint.getService().getOutputs().size()).addRow("Object", "Type","Description");
+              	endpoint.getService().getOutputs().forEach( o -> outputFieldsTableBuilder.addRow(o.getName(),o.getType(),o.getDescription()));
 
 				builder.append(new Text(outputFieldsTableBuilder.build().toString())).append("\n").append("\n");
             }
@@ -162,8 +166,6 @@ public class DocGenScript extends Script {
           	//== generating testsuite
           	log.info("test suite == {}",endpoint.getService().getTestSuite());
           
-          	//== generating input field
-          	endpoint.getService().getInputs().forEach(i -> log.info("service input fields name == {}, type=={}, desc=={}",i.getName(),i.getType(),i.getDescription()));
         });
         
       	//== CETs
@@ -186,5 +188,9 @@ public class DocGenScript extends Script {
         } catch(IOException ex){
         	log.error(ex.getMessage());
         }
+    }
+  
+  	private TSParameterMapping findTSParameterMapping(List<TSParameterMapping> params, String fieldName){
+      return (TSParameterMapping)params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst().orElseThrow();
     }
 }
