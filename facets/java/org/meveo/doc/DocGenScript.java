@@ -30,6 +30,7 @@ import org.meveo.service.crm.impl.CurrentUserProducer;
 import org.meveo.service.script.Script;
 import org.meveo.model.scripts.Function;
 import org.meveo.service.git.GitHelper;
+import org.meveo.commons.utils.StringUtils;
 
 import net.steppschuh.markdowngenerator.text.Text;
 import net.steppschuh.markdowngenerator.text.heading.Heading;
@@ -126,6 +127,21 @@ public class DocGenScript extends Script {
           	//== endpoint input fields
           	log.info("total endpoint input fields size == {}",endpoint.getParametersMapping().size());
           	if(endpoint.getParametersMapping().size()>0){
+            	//List<Object> items = new ArrayList();
+    			//items.add("Input Fields");
+          		//builder.append(new UnorderedList<>(items).toString()).append("\n");
+              	builder.append(new Text("Input Fields:")).append("\n").append("\n");
+              	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
+            		.withRowLimit(endpoint.getParametersMapping().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
+
+	            endpoint.getParametersMapping().forEach(f -> {
+    	        	log.info("field name == {}",f.getParameterName());
+                  	inputFieldsTableBuilder.addRow(f.getParameterName(),"",f.getDefaultValue(),"","");
+        		});
+				builder.append(new Text(inputFieldsTableBuilder.build().toString())).append("\n").append("\n");
+            }
+          
+          	if(StringUtils.isNotBlank(endpoint.getReturnedVariableName())){
             	//List<Object> items = new ArrayList();
     			//items.add("Input Fields");
           		//builder.append(new UnorderedList<>(items).toString()).append("\n");
