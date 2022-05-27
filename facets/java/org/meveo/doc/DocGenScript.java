@@ -116,7 +116,7 @@ public class DocGenScript extends Script {
           	builder.append(new Heading("Rest Service",3)).append("\n");
           	
           	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            	.withRowLimit(endpointCodes.size()).addRow("Name", "Endpoint URL","Method","Description");
+            	.withRowLimit(endpointCodes.size()+1).addRow("Name", "Endpoint URL","Method","Description");
             endpointTableBuilder.addRow(endpoint.getCode(),endpoint.getEndpointUrl(),endpoint.getMethod().getLabel(),endpoint.getDescription());
               	
             builder.append(new Text(endpointTableBuilder.build().toString())).append("\n");          	
@@ -128,9 +128,9 @@ public class DocGenScript extends Script {
             	//List<Object> items = new ArrayList();
     			//items.add("Input Fields");
           		//builder.append(new UnorderedList<>(items).toString()).append("\n");
-              	builder.append(new Text("*Input Fields:")).append("\n");
+              	//builder.append(new Text("*Input Fields:")).append("\n");
               	Table.Builder inputFieldsTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
-            		.withRowLimit(endpoint.getParametersMapping().size()).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
+            		.withRowLimit(endpoint.getParametersMapping().size()+1).addRow("Object", "Type","Default Value","List Options","Obs / Conditions");
 
 	            endpoint.getParametersMapping().forEach(f -> {
     	        	log.info("field name == {}",f.getParameterName());
