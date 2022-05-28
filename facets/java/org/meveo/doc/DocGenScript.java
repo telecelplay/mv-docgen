@@ -31,6 +31,7 @@ import org.meveo.service.crm.impl.CurrentUserProducer;
 import org.meveo.service.script.Script;
 import org.meveo.model.scripts.Function;
 import org.meveo.service.git.GitHelper;
+import org.meveo.service.git.GitClient;
 import org.meveo.commons.utils.StringUtils;
 
 import net.steppschuh.markdowngenerator.text.Text;
@@ -54,6 +55,7 @@ public class DocGenScript extends Script {
 	private CurrentUserProducer currentUserProducer = getCDIBean(CurrentUserProducer.class);
   	private EndpointService endpointService = getCDIBean(EndpointService.class);
   	private ScriptInstanceService scriptInstanceService = getCDIBean(ScriptInstanceService.class);
+	private GitClient gitClient = getCDIBean(GitClient.class);  
 
 	private String moduleCode;
 	private Object result;
@@ -195,6 +197,7 @@ public class DocGenScript extends Script {
       
       	//== write to file
         writeToFile(filePath,builder.toString());
+      	gitClient.commitFiles(module.getGitRepository(),List.of(new File(filePath)),"updating doc file.");
 	}	
   
   	private void writeToFile(String filePath,String text){
