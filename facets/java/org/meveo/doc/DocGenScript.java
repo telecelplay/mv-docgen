@@ -99,7 +99,7 @@ public class DocGenScript extends Script {
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
           	builder.append(new Heading(module.getCode(),1)).append("\n");
-          	builder.append(new Text(module.getDescription())).append("\n");
+          	builder.append(new Text(module.getDescription())).append("\n").append("\n");
         } catch(IOException ex){
         	throw new BusinessException(ex);
         }
