@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "2e84e5b9-315c-4617-b59b-87d797ae4449",
+		"name": "Doc_Generator_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login and init var",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "033626ad-c9e4-46b0-8db2-4580f9764dc0",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.environment.get(\"variable_key\");",
+							"var json = pm.response.json();",
+							"var token = json[\"access_token\"];",
+							"var refreshToken = json[\"refresh_token\"]",
+							"pm.environment.set(\"access_token\", token);",
+							"pm.environment.set(\"refresh_token\", refreshToken);",
+							"",
+							"",
+							"pm.environment.set(\"user1_wallet\", \"540393827f402ab70d283a7706231b5cef8fec0c\");",
+							"pm.environment.set(\"user2_wallet\", \"87bebc4094bc195e97e431f25f86c246c0ed6608\");",
+							"pm.environment.set(\"user3_wallet\", \"a3fce546963eccaea1c3d87b72c0612fa22d1a91\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "meveo-web",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "meveo.admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{keycloakPassword}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "afe07e5a-68cb-4fb0-8b75-5b6053b07dc3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{protocol}}://{{keycloak.hostname}}:{{keycloak.port}}/auth/realms/{{webContext}}/protocol/openid-connect/token",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{keycloak.hostname}}"
+					],
+					"port": "{{keycloak.port}}",
+					"path": [
+						"auth",
+						"realms",
+						"{{webContext}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				},
+				"description": "Request Keycloak and get auth token"
+			},
+			"response": []
+		},
+		{
+			"name": "generate_readme.md_doc_by_module_code",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}:{{port}}/{{webContext}}/rest/module/mv-docgen/doc/gen",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{webContext}}",
+						"rest",
+						"module",
+						"mv-docgen",
+						"doc",
+						"gen"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "create purchase order user 1 Copy",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \t\"name\": \"token1\",\r\n    \t\"type\": \"FCMToken\",\r\n    \t\"properties\": {\r\n            \"userId\": \"{{user1_wallet}}\",\r\n            \"token\": \"tokenvalue\"\r\n        }\r\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://{{hostname}}:{{port}}/{{webContext}}/api/rest/{{repoId}}/persistence",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{webContext}}",
+								"api",
+								"rest",
+								"{{repoId}}",
+								"persistence"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.15.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 21 Jan 2022 04:08:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "171"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, must-revalidate"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, DELETE, PUT"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"code\": \"FCMToken\",\n        \"name\": \"token1\",\n        \"uuid\": \"47f6c19f-752a-4d98-a516-e20c61ae5d2c\",\n        \"properties\": {\n            \"userId\": \"540393827f402ab70d283a7706231b5cef8fec0c\",\n            \"token\": \"tokenvalue\"\n        }\n    }\n]"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e9cc8a28-2ef4-4139-b19a-9ad2e2e1b1de",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "521be209-f97b-463c-a48f-149c842607a9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
