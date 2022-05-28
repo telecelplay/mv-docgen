@@ -177,6 +177,7 @@ public class DocGenScript extends Script {
           	log.info("postman dir found");
           	File[] tests = postmanDir.listFiles();
           	if(tests.length>0){
+              	builder.append("\n");
             	builder.append(new Heading("Postman Tests ",2)).append("\n");          		
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
