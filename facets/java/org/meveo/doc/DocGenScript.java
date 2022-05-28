@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.net.URLEncoder;
 
 import org.meveo.admin.exception.BusinessException;
 import org.meveo.commons.utils.ParamBean;
@@ -160,9 +161,12 @@ public class DocGenScript extends Script {
 
               	String absScriptPath = module.getGitRepository().getDefaultBranch()+"/facets/java/"+scriptPath+".java";
               	String scriptFilePath = gitPath+"/blob/"+absScriptPath;
-              	log.info("link path == {}",new Link(absScriptPath,scriptFilePath));
-              	tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,scriptFilePath),scriptInstance.getDescription());
-              	
+              	try{
+              		log.info("link path == {}",new Link(absScriptPath,URLEncoder.encode(scriptFilePath,"UTF-8")));
+              		tableBuilder.addRow("Meveo Function",scriptInstance.getCode(),new Link(absScriptPath,URLEncoder.encode(scriptFilePath,"UTF-8")),scriptInstance.getDescription());
+                } catch(UnsupportedEncodingException ex){
+                  log.error(ex.getMessage());
+                }
               	builder.append(new Text(tableBuilder.build().toString())).append("\n");
             }
         }
@@ -175,15 +179,18 @@ public class DocGenScript extends Script {
           	log.info("postman dir found");
           	File[] tests = postmanDir.listFiles();
           	if(tests.length>0){
-        		builder.append(new Heading("Postman Tests ",2)).append("\n");          		
+            	builder.append(new Heading("Postman Tests ",2)).append("\n");          		
         		Table.Builder postmanTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
         			.withRowLimit(tests.length+1).addRow("Path");
-              	for(File test: tests){
-                  	String gitLinkText = postmanGitPath+test.getName();
-                  	String gitLinkPath = gitPath+"/blob/"+gitLinkText;
-        			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
+              	try{
+              		for(File test: tests){
+                  		String gitLinkText = postmanGitPath+test.getName();
+                  		String gitLinkPath = gitPath+"/blob/"+gitLinkText;
+        				postmanTableBuilder.addRow(new Link(gitLinkText,URLEncoder.encode(gitLinkPath,"UTF-8")));
+                	}
+              	} catch(UnsupportedEncodingException ex){
+                  log.error(ex.getMessage());
                 }
-              	
         		builder.append(new Text(postmanTableBuilder.build().toString())).append("\n");
             }
         }
