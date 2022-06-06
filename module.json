@@ -1,6 +1,6 @@
 {
   "code" : "mv-docgen",
-  "description" : "doc generator module",
+  "description" : "doc generator module - install and generate any module documentation by passing module code in  postman endpoint call",
   "license" : "GPL",
   "currentVersion" : "0.1",
   "isInDraft" : true,
