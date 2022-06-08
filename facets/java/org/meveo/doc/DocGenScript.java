@@ -99,7 +99,7 @@ public class DocGenScript extends Script {
           	filePath = modulePath+"/README.md";
     		String text = new String ( Files.readAllBytes( Paths.get(filePath) ));
           	builder.append(new Heading(module.getCode(),1)).append("\n");
-          	builder.append(new Text(module.getDescription())).append("\n").append("\n");
+          	builder.append(new Text(module.getDescription())).append("\n");
         } catch(IOException ex){
         	throw new BusinessException(ex);
         }
@@ -114,7 +114,8 @@ public class DocGenScript extends Script {
             if(endpoint == null){
             	log.error("endpoint not found");
             }
-			//== generating Rest Service table 
+			//== generating Rest Service table
+          	builder.append("\n");
           	builder.append(new Heading("Rest Service",2)).append("\n");
           	
           	Table.Builder endpointTableBuilder = new Table.Builder().withAlignments(Table.ALIGN_LEFT, Table.ALIGN_LEFT)
