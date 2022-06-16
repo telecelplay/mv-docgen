@@ -204,8 +204,12 @@ public class DocGenScript extends Script {
           	log.info(" CET name == {}",customEntityTemplate.getName());
           	log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
           	//log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
-          	customEntityTemplate.descendance().forEach(t -> log.info("sub template name desc == {}",t.getName()));
-          	customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
+          	if(customEntityTemplate.descendance()!=null){
+          		customEntityTemplate.descendance().forEach(t -> log.info("sub template name desc == {}",t.getName()));
+            }
+          	if(customEntityTemplate.ascendance()!=null){
+            	customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
+            }
         }
       
       	//== write to file
