@@ -202,6 +202,8 @@ public class DocGenScript extends Script {
       	for(String entityCode : entityCodes){
         	CustomEntityTemplate customEntityTemplate = customEntityTemplateService.findByCodeOrDbTablename(entityCode);
           	log.info(" CET name == {}",customEntityTemplate.getName());
+          	log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
+          	customEntityTemplate.getSubTemplates().forEach(t -> log.info("sub template name == {}",t.getName()));
         }
       
       	//== write to file
