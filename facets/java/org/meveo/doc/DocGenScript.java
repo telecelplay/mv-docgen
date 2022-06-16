@@ -22,6 +22,8 @@ import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.model.scripts.ScriptInstance;
 import org.meveo.service.script.ScriptInstanceService;
 import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
+import org.meveo.service.custom.CustomEntityTemplateService;
+import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.model.BusinessEntity;
@@ -55,7 +57,8 @@ public class DocGenScript extends Script {
 	private CurrentUserProducer currentUserProducer = getCDIBean(CurrentUserProducer.class);
   	private EndpointService endpointService = getCDIBean(EndpointService.class);
   	private ScriptInstanceService scriptInstanceService = getCDIBean(ScriptInstanceService.class);
-	private GitClient gitClient = getCDIBean(GitClient.class);  
+	private GitClient gitClient = getCDIBean(GitClient.class);
+  	private CustomEntityTemplateService customEntityTemplateService =  getCDIBean(CustomEntityTemplateService.class);
 
 	private String moduleCode;
 	private Object result;
@@ -196,6 +199,10 @@ public class DocGenScript extends Script {
 			.map(entity -> entity.getItemCode())
 			.collect(Collectors.toList());
 		log.info("entityCodes: {}", entityCodes);
+      	for(String entityCode : entityCodes){
+        	CustomEntityTemplate customEntityTemplate = customEntityTemplateService.findByCodeOrDbTablename(entityCode);
+          	log.info(" CET name == {}",customEntityTemplate.getName());
+        }
       
       	//== write to file
         writeToFile(filePath,builder.toString());
