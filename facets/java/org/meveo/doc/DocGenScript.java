@@ -203,7 +203,9 @@ public class DocGenScript extends Script {
         	CustomEntityTemplate customEntityTemplate = customEntityTemplateService.findByCodeOrDbTablename(entityCode);
           	log.info(" CET name == {}",customEntityTemplate.getName());
           	log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
-          	customEntityTemplate.getSubTemplates().forEach(t -> log.info("sub template name == {}",t.getName()));
+          	//log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
+          	customEntityTemplate.descendance().forEach(t -> log.info("sub template name desc == {}",t.getName()));
+          	customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
         }
       
       	//== write to file
