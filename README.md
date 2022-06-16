@@ -1,6 +1,6 @@
 mv-docgen
 =========
-doc generator module - install and generate any module documentation by passing module code in  postman endpoint call
+doc generator module - install this module and generate/update documentation (README.md) of any installed module by passing module code in  postman endpoint call
 
 Rest Service
 ------------
