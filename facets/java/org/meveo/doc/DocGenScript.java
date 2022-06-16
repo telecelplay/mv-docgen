@@ -209,7 +209,7 @@ public class DocGenScript extends Script {
               	log.info("custom entity temp desc size == {}",customEntityTemplate.descendance().size());
             }
           	if(customEntityTemplate.ascendance()!=null){
-            	customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
+            	//customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
               	log.info("custom entity temp asc size == {}",customEntityTemplate.ascendance().size());
             }
         }
