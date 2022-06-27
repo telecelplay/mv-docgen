@@ -203,6 +203,7 @@ public class DocGenScript extends Script {
         	CustomEntityTemplate customEntityTemplate = customEntityTemplateService.findByCodeOrDbTablename(entityCode);
           	log.info(" CET name == {}",customEntityTemplate.getName());
           	log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
+          	log.info(" CET has reference == {}",customEntityTemplate.hasReferenceJpaEntity());
           	//log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
           	//if(customEntityTemplate.descendance()!=null){
           		//customEntityTemplate.descendance().forEach(t -> log.info("sub template name desc == {}",t.getName()));
