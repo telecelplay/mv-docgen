@@ -223,9 +223,10 @@ public class DocGenScript extends Script {
 			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
-              	if(fieldEntityCode != null){
-              		log.info("CFT DBFieldName == {}, fieldEntityCode == {}, relationshipName == {}",field.getDbFieldname(),fieldEntityCode,field.getRelationshipName());
-                }
+              	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
+              	//if(fieldEntityCode != null){
+              	//	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, relationshipName == {}",field.getDbFieldname(),fieldEntityCode,field.getRelationshipName());
+                //}
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
 				//if (isEntity && !fieldEntityCode.contains(".")) {
