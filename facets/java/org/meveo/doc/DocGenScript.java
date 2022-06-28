@@ -224,7 +224,7 @@ public class DocGenScript extends Script {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	if(fieldEntityCode != null){
-              		log.info("CFT fieldEntityCode == {}",fieldEntityCode);
+              		log.info("CFT fieldEntityCode == {}, relationshipName == {}",fieldEntityCode,field.getRelationshipName());
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
