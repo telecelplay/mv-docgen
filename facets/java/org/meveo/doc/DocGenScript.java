@@ -211,6 +211,9 @@ public class DocGenScript extends Script {
 			.map(entity -> entity.getItemCode())
 			.collect(Collectors.toList());
 		log.info("entityCodes: {}", entityCodes);
+      	builder.append(new Heading("ERD Diagram",2)).append("\n").append("\n");
+      	builder.append(new Text("```mermaid")).append("\n");
+      	builder.append(new Text("erDiagram")).append("\n");
       	for(String entityCode : entityCodes){
         	CustomEntityTemplate customEntityTemplate = cetService.findByCodeOrDbTablename(entityCode);
           	log.info(" CET name == {}",customEntityTemplate.getName());
@@ -219,14 +222,15 @@ public class DocGenScript extends Script {
           	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
 			Set<String> refSchemaCodes = new HashSet();
           
+          	builder.append(new Text(customEntityTemplate.getDbTableName()));
 			//FormFields formFields = new FormFields();
 			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
-              	//if(fieldEntityCode != null){
-              	//	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, relationshipName == {}",field.getDbFieldname(),fieldEntityCode,field.getRelationshipName());
-                //}
+              	if(fieldEntityCode != null){
+					builder.append(new Text("||--o{ "+fieldEntityCode)).append("/n");
+                }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
 				//if (isEntity && !fieldEntityCode.contains(".")) {
@@ -241,6 +245,7 @@ public class DocGenScript extends Script {
 				//entityActions.add(entry.getValue());
 			}
         }
+      	builder.append(new Text("```")).append("\n");
       
       	//== write to file
         writeToFile(filePath,builder.toString());
