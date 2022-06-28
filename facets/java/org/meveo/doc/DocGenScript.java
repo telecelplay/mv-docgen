@@ -230,6 +230,7 @@ public class DocGenScript extends Script {
 					refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
 				}
 			}
+          	log.info("refSchemaCodes size == {}",refSchemaCodes.size());
           
           	//EntityActions entityActions = new EntityActions();
 			for (Entry<String, EntityCustomAction> entry : actions.entrySet()) {
