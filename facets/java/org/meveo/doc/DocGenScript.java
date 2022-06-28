@@ -72,7 +72,6 @@ public class DocGenScript extends Script {
 	private EntityCustomActionService ecaService = getCDIBean(EntityCustomActionService.class);
 
 
-
 	private String moduleCode;
 	private Object result;
 
