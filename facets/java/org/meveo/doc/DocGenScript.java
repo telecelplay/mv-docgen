@@ -226,9 +226,9 @@ public class DocGenScript extends Script {
               	log.info("CFT fieldEntityCode == {}",fieldEntityCode);
 				//formFields.add(field);
 				boolean isEntity = fieldEntityCode != null;
-				if (isEntity && !fieldEntityCode.contains(".")) {
-					refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
-				}
+				//if (isEntity && !fieldEntityCode.contains(".")) {
+				//	refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
+				//}
 			}
           	log.info("refSchemaCodes size == {}",refSchemaCodes.size());
           
