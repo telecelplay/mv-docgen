@@ -219,8 +219,23 @@ public class DocGenScript extends Script {
           	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
 			Set<String> refSchemaCodes = new HashSet();
           
-          	
-
+			//FormFields formFields = new FormFields();
+			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
+				CustomFieldTemplate field = entry.getValue();
+				String fieldEntityCode = field.getEntityClazzCetCode();
+              	log.info("CFT fieldEntityCode == {}",fieldEntityCode);
+				//formFields.add(field);
+				boolean isEntity = fieldEntityCode != null;
+				if (isEntity && !fieldEntityCode.contains(".")) {
+					refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
+				}
+			}
+          
+          	//EntityActions entityActions = new EntityActions();
+			for (Entry<String, EntityCustomAction> entry : actions.entrySet()) {
+				log.debug("action: {}", entry.getKey());
+				//entityActions.add(entry.getValue());
+			}
         }
       
       	//== write to file
