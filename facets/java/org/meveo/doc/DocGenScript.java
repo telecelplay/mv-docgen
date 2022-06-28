@@ -6,6 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.HashSet;
+
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -16,25 +19,31 @@ import java.nio.file.Path;
 import org.meveo.admin.exception.BusinessException;
 import org.meveo.commons.utils.ParamBean;
 import org.meveo.commons.utils.ParamBeanFactory;
+import org.meveo.security.MeveoUser;
+import org.meveo.commons.utils.StringUtils;
+
 import org.meveo.model.customEntities.CustomEntityTemplate;
 import org.meveo.model.technicalservice.endpoint.Endpoint;
-import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.model.scripts.ScriptInstance;
-import org.meveo.service.script.ScriptInstanceService;
 import org.meveo.model.technicalservice.endpoint.TSParameterMapping;
-import org.meveo.service.custom.CustomEntityTemplateService;
 import org.meveo.model.customEntities.CustomEntityTemplate;
+import org.meveo.model.crm.custom.EntityCustomAction;
+import org.meveo.model.crm.CustomFieldTemplate;
 import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.model.BusinessEntity;
-import org.meveo.security.MeveoUser;
+import org.meveo.model.scripts.Function;
+
+import org.meveo.service.technicalservice.endpoint.EndpointService;
+import org.meveo.service.script.ScriptInstanceService;
+import org.meveo.service.custom.CustomEntityTemplateService;
+import org.meveo.service.crm.impl.CustomFieldTemplateService;
+import org.meveo.service.custom.EntityCustomActionService;
 import org.meveo.service.admin.impl.MeveoModuleService;
 import org.meveo.service.crm.impl.CurrentUserProducer;
 import org.meveo.service.script.Script;
-import org.meveo.model.scripts.Function;
 import org.meveo.service.git.GitHelper;
 import org.meveo.service.git.GitClient;
-import org.meveo.commons.utils.StringUtils;
 
 import net.steppschuh.markdowngenerator.text.Text;
 import net.steppschuh.markdowngenerator.text.heading.Heading;
@@ -58,7 +67,11 @@ public class DocGenScript extends Script {
   	private EndpointService endpointService = getCDIBean(EndpointService.class);
   	private ScriptInstanceService scriptInstanceService = getCDIBean(ScriptInstanceService.class);
 	private GitClient gitClient = getCDIBean(GitClient.class);
-  	private CustomEntityTemplateService customEntityTemplateService =  getCDIBean(CustomEntityTemplateService.class);
+  	private CustomEntityTemplateService cetService =  getCDIBean(CustomEntityTemplateService.class);
+  	private CustomFieldTemplateService cftService = getCDIBean(CustomFieldTemplateService.class);
+	private EntityCustomActionService ecaService = getCDIBean(EntityCustomActionService.class);
+
+
 
 	private String moduleCode;
 	private Object result;
@@ -200,19 +213,15 @@ public class DocGenScript extends Script {
 			.collect(Collectors.toList());
 		log.info("entityCodes: {}", entityCodes);
       	for(String entityCode : entityCodes){
-        	CustomEntityTemplate customEntityTemplate = customEntityTemplateService.findByCodeOrDbTablename(entityCode);
+        	CustomEntityTemplate customEntityTemplate = cetService.findByCodeOrDbTablename(entityCode);
           	log.info(" CET name == {}",customEntityTemplate.getName());
           	log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
-          	log.info(" CET has reference == {}",customEntityTemplate.hasReferenceJpaEntity());
-          	//log.info(" CET DB Table name == {}",customEntityTemplate.getDbTableName());
-          	//if(customEntityTemplate.descendance()!=null){
-          		//customEntityTemplate.descendance().forEach(t -> log.info("sub template name desc == {}",t.getName()));
-            //  	log.info("custom entity temp desc size == {}",customEntityTemplate.descendance().size());
-            //}
-          	//if(customEntityTemplate.ascendance()!=null){
-            	//customEntityTemplate.ascendance().forEach(t -> log.info("sub template name asce == {}",t.getName()));
-           //   	log.info("custom entity temp asc size == {}",customEntityTemplate.ascendance().size());
-            //}
+          	Map<String, CustomFieldTemplate> fields = cftService.findByAppliesTo(customEntityTemplate.getAppliesTo());
+          	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
+			Set<String> refSchemaCodes = new HashSet();
+          
+          	
+
         }
       
       	//== write to file
@@ -235,4 +244,29 @@ public class DocGenScript extends Script {
       Optional<TSParameterMapping> param = params.stream().filter(p -> p.getParameterName().equals(fieldName)).findFirst();
       return param.isPresent()?param.get():null;
     }
+    
+  
+  	private Set<String> iterateRefSchemas(String entityCode, Set<String> allSchemas) {
+      	if (allSchemas.contains(entityCode)) {
+          return allSchemas;
+        }
+		Set<String> refSchemaCodes = allSchemas;
+		refSchemaCodes.add(entityCode);
+		CustomEntityTemplate entityTemplate = cetService.findByCodeOrDbTablename(entityCode);
+		Map<String, CustomFieldTemplate> fields = cftService.findByAppliesTo(entityTemplate.getAppliesTo());
+		for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
+			String key = entry.getKey();
+			CustomFieldTemplate field = entry.getValue();
+			String fieldEntityCode = field.getEntityClazzCetCode();
+			boolean isEntity = fieldEntityCode != null;
+			boolean isAdded = refSchemaCodes.contains(key);
+			boolean isCet = isEntity && !fieldEntityCode.contains(".");
+			if (!isAdded && isCet) {
+				log.debug("Adding to all schemas: {}", refSchemaCodes);
+				refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
+			}
+		}
+		log.debug("Added Schemas: {}", refSchemaCodes);
+		return refSchemaCodes;
+	}
 }
