@@ -35,6 +35,6 @@ Postman Tests
 
 ```mermaid
 erDiagram
-liquimartproductreview }0--|| wallet : has
+liquimartproductreview }o--|| wallet : has
 purchaseorder ||--o{ purchaseorderline : has
 ```
