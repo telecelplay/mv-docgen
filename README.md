@@ -45,8 +45,6 @@ LONG rating
 STRING reviewdate
 STRING sellerwalletaddress
 }
-purchaseorder }0--|| wallet : has
-purchaseorder }0--|| grouppurchase : has
 purchaseorder ||--o{ purchaseorderline : has
 purchaseorder {
 DOUBLE amount
@@ -60,75 +58,6 @@ STRING paymenttransaction
 STRING productid
 STRING purchasetransactionid
 LONG quantity
-}
-grouppurchase }0--|| wallet : has
-grouppurchase }0--|| purchaseorder : has
-grouppurchase {
-ENTITY ackmembers
-STRING cashbacktransactions
-DATE creationdate
-ENTITY creator
-LONG currentmemberscount
-STRING discountid
-LONG discountminparticipants
-DOUBLE discountpercent
-DATE expirydate
-DATE lastupdate
-ENTITY memberpurchases
-ENTITY members
-STRING name
-ENTITY paidmembers
-LONG paidmemberscount
-STRING productid
-STRING productname
-LONG purchasedquantity
-LIST status
-}
-cart }0--|| wallet : has
-cart }0--|| grouppurchase : has
-cart ||--o{ purchaseorderline : has
-cart {
-DOUBLE amount
-DATE creationdate
-ENTITY customer
-ENTITY grouppurchase
-CHILD_ENTITY orderlines
-}
-product }0--|| merchant : has
-product {
-LONG bestseller
-LONG categid
-STRING code
-LONG costcurrencyid
-DATE createdate
-LONG currencyid
-STRING displayname
-LONG groupdiscountid
-LONG id
-DOUBLE listprice
-LONG locationid
-ENTITY merchant
-STRING name
-}
-merchant }0--|| wallet : has
-merchant {
-SECRET accountcountercode
-STRING accountfirstname
-STRING accountlastname
-SECRET accountribkey
-STRING bankaccountnumber
-STRING bankcode
-SECRET cardcvc
-STRING cardexpirymonth
-STRING cardexpiryyear
-STRING cardholderfirstname
-STRING cardholderlastname
-SECRET cardnumber
-STRING cardtype
-LONG id
-STRING name
-STRING orangephonenumber
-ENTITY wallet
 }
 purchaseorderline {
 STRING currency
