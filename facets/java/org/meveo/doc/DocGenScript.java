@@ -227,7 +227,7 @@ public class DocGenScript extends Script {
 			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
-              	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
+              	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, fieldType == {}",field.getDbFieldname(),fieldEntityCode,field.getFieldType());
               	if(fieldEntityCode != null){
 					builder.append(new Text(fieldEntityCode+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
                 }
