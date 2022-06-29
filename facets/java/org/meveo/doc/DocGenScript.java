@@ -225,16 +225,21 @@ public class DocGenScript extends Script {
           
           	//builder.append(new Text(customEntityTemplate.getDbTableName()));
 			//FormFields formFields = new FormFields();
-			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
+          	//HashMap<String,Set<String>> entityMap = new HashMap<>();
+          	HashSet<String> refEntities = new HashSet<>();
+          	for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
-				String fieldEntityCode = field.getEntityClazzCetCode().toLowerCase();
+				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, fieldType == {}",field.getDbFieldname(),fieldEntityCode,field.getFieldType());
-              	if(fieldEntityCode != null){
+              	if(fieldEntityCode != null && !refEntities.contains(fieldEntityCode.toLowerCase())){
                   	if(field.getFieldType().getLabel().equalsIgnoreCase(CustomFieldTypeEnum.ENTITY.getLabel())){
-						builder.append(new Text(fieldEntityCode+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
+						builder.append(new Text(fieldEntityCode.toLowerCase()+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
                     } else {
-                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode+ " ")).append("\n");
+                      	builder.append(new Text(fieldEntityCode.toLowerCase()+" }0--|| "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
+                      	//builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode+ " ")).append("\n");
                     }
+                  
+                  	refEntities.add(fieldEntityCode.toLowerCase());
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
@@ -242,6 +247,13 @@ public class DocGenScript extends Script {
 				//	refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
 				//}
 			}
+          	builder.append(new Text(customEntityTemplate.getDbTableName()+" {")).append("\n");
+            for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
+				CustomFieldTemplate field = entry.getValue();
+				builder.append(new Text(field.getFieldType().getLabel()+" "+field.getDbFieldname())).append("\n");
+			}
+			builder.append(new Text("}")).append("\n");
+      		
           	log.info("refSchemaCodes size == {}",refSchemaCodes.size());
           
           	//EntityActions entityActions = new EntityActions();
