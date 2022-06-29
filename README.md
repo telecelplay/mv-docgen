@@ -40,10 +40,7 @@ Wallet ||--o{ purchaseorder
 GroupPurchase ||--o{ purchaseorder 
 purchaseorder ||--o{ PurchaseOrderLine 
 Wallet ||--o{ grouppurchase 
-Wallet ||--o{ grouppurchase 
 PurchaseOrder ||--o{ grouppurchase 
-Wallet ||--o{ grouppurchase 
-Wallet ||--o{ grouppurchase 
 Wallet ||--o{ cart 
 GroupPurchase ||--o{ cart 
 cart ||--o{ PurchaseOrderLine 
