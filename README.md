@@ -36,36 +36,5 @@ Postman Tests
 ```mermaid
 erDiagram
 liquimartproductreview }0--|| wallet : has
-liquimartproductreview {
-ENTITY buyerwalletaddress
-LONG_TEXT comments
-STRING productcode
-DATE purchasedate
-LONG rating
-STRING reviewdate
-STRING sellerwalletaddress
-}
 purchaseorder ||--o{ purchaseorderline : has
-purchaseorder {
-DOUBLE amount
-STRING cashbacktransactionid
-DATE creationdate
-ENTITY customer
-ENTITY grouppurchase
-STRING orderid
-CHILD_ENTITY orderlines
-STRING paymenttransaction
-STRING productid
-STRING purchasetransactionid
-LONG quantity
-}
-purchaseorderline {
-STRING currency
-DOUBLE price
-STRING productid
-STRING productimageid
-STRING productname
-LONG quantity
-DOUBLE unitprice
-}
 ```
