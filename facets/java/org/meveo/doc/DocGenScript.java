@@ -33,6 +33,7 @@ import org.meveo.model.module.MeveoModule;
 import org.meveo.model.module.MeveoModuleItem;
 import org.meveo.model.BusinessEntity;
 import org.meveo.model.scripts.Function;
+import org.meveo.model.crm.custom.CustomFieldTypeEnum;
 
 import org.meveo.service.technicalservice.endpoint.EndpointService;
 import org.meveo.service.script.ScriptInstanceService;
@@ -229,7 +230,11 @@ public class DocGenScript extends Script {
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, fieldType == {}",field.getDbFieldname(),fieldEntityCode,field.getFieldType());
               	if(fieldEntityCode != null){
-					builder.append(new Text(fieldEntityCode+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
+                  	if(field.getFieldType().getLabel().equalsIgnoreCase(CustomFieldTypeEnum.ENTITY.getLabel())){
+						builder.append(new Text(fieldEntityCode+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
+                    } else {
+                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode+ " ")).append("\n");
+                    }
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
