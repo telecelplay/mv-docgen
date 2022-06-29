@@ -245,7 +245,7 @@ public class DocGenScript extends Script {
 				//entityActions.add(entry.getValue());
 			}
         }
-      	builder.append("\n").append(new Text("```")).append("\n");
+      	builder.append(new Text("```")).append("\n");
       
       	//== write to file
         writeToFile(filePath,builder.toString());
