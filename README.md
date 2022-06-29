@@ -36,5 +36,107 @@ Postman Tests
 ```mermaid
 erDiagram
 liquimartproductreview }o--|| wallet : has
+liquimartproductreview {
+ENTITY buyerwalletaddress
+LONG_TEXT comments
+STRING productcode
+DATE purchasedate
+LONG rating
+STRING reviewdate
+STRING sellerwalletaddress
+}
+purchaseorder }o--|| wallet : has
+purchaseorder }o--|| grouppurchase : has
 purchaseorder ||--o{ purchaseorderline : has
+purchaseorder {
+DOUBLE amount
+STRING cashbacktransactionid
+DATE creationdate
+ENTITY customer
+ENTITY grouppurchase
+STRING orderid
+CHILD_ENTITY orderlines
+STRING paymenttransaction
+STRING productid
+STRING purchasetransactionid
+LONG quantity
+}
+grouppurchase }o--|| wallet : has
+grouppurchase }o--|| purchaseorder : has
+grouppurchase {
+ENTITY ackmembers
+STRING cashbacktransactions
+DATE creationdate
+ENTITY creator
+LONG currentmemberscount
+STRING discountid
+LONG discountminparticipants
+DOUBLE discountpercent
+DATE expirydate
+DATE lastupdate
+ENTITY memberpurchases
+ENTITY members
+STRING name
+ENTITY paidmembers
+LONG paidmemberscount
+STRING productid
+STRING productname
+LONG purchasedquantity
+LIST status
+}
+cart }o--|| wallet : has
+cart }o--|| grouppurchase : has
+cart ||--o{ purchaseorderline : has
+cart {
+DOUBLE amount
+DATE creationdate
+ENTITY customer
+ENTITY grouppurchase
+CHILD_ENTITY orderlines
+}
+product }o--|| merchant : has
+product {
+LONG bestseller
+LONG categid
+STRING code
+LONG costcurrencyid
+DATE createdate
+LONG currencyid
+STRING displayname
+LONG groupdiscountid
+LONG id
+DOUBLE listprice
+LONG locationid
+ENTITY merchant
+STRING name
+}
+merchant }o--|| wallet : has
+merchant {
+SECRET accountcountercode
+STRING accountfirstname
+STRING accountlastname
+SECRET accountribkey
+STRING bankaccountnumber
+STRING bankcode
+SECRET cardcvc
+STRING cardexpirymonth
+STRING cardexpiryyear
+STRING cardholderfirstname
+STRING cardholderlastname
+SECRET cardnumber
+STRING cardtype
+LONG id
+STRING name
+STRING orangephonenumber
+ENTITY wallet
+}
+purchaseorderline {
+STRING currency
+DOUBLE price
+STRING productid
+STRING productimageid
+STRING productname
+LONG quantity
+DOUBLE unitprice
+}
 ```
