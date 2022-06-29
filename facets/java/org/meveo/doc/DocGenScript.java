@@ -222,14 +222,14 @@ public class DocGenScript extends Script {
           	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
 			Set<String> refSchemaCodes = new HashSet();
           
-          	builder.append(new Text(customEntityTemplate.getDbTableName()));
+          	//builder.append(new Text(customEntityTemplate.getDbTableName()));
 			//FormFields formFields = new FormFields();
 			for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
               	if(fieldEntityCode != null){
-					builder.append(new Text(" ||--o{ "+fieldEntityCode+ " ")).append("\n");
+					builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode+ " ")).append("\n");
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
@@ -245,7 +245,7 @@ public class DocGenScript extends Script {
 				//entityActions.add(entry.getValue());
 			}
         }
-      	builder.append(new Text("```")).append("\n");
+      	builder.append("\n").append(new Text("```")).append("\n");
       
       	//== write to file
         writeToFile(filePath,builder.toString());
