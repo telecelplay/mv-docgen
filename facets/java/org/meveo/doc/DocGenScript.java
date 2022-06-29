@@ -202,7 +202,7 @@ public class DocGenScript extends Script {
                   	String gitLinkPath = gitPath+"/blob/"+gitLinkText;
         			postmanTableBuilder.addRow(new Link(gitLinkText,gitLinkPath));
                 }
-        		builder.append(new Text(postmanTableBuilder.build().toString())).append("\n");
+        		builder.append(new Text(postmanTableBuilder.build().toString())).append("\n").append("\n");
             }
         }
       	//== CETs
@@ -229,7 +229,7 @@ public class DocGenScript extends Script {
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
               	if(fieldEntityCode != null){
-					builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode+ " ")).append("\n");
+					builder.append(new Text(fieldEntityCode+" ||--o{ "+customEntityTemplate.getDbTableName()+ " ")).append("\n");
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
