@@ -229,7 +229,7 @@ public class DocGenScript extends Script {
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, identifier == {}",field.getDbFieldname(),fieldEntityCode,field.isIdentifier());
               	if(fieldEntityCode != null){
-					builder.append(new Text("||--o{ "+fieldEntityCode+ " "));
+					builder.append(new Text(" ||--o{ "+fieldEntityCode+ " ")).append("\n");
                 }
                 //formFields.add(field);
 				//boolean isEntity = fieldEntityCode != null;
