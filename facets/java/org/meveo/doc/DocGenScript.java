@@ -212,6 +212,7 @@ public class DocGenScript extends Script {
 			.map(entity -> entity.getItemCode())
 			.collect(Collectors.toList());
 		log.info("entityCodes: {}", entityCodes);
+      	//== generating data model
       	builder.append(new Heading("ERD Diagram",2)).append("\n").append("\n");
       	builder.append(new Text("```mermaid")).append("\n");
       	builder.append(new Text("erDiagram")).append("\n");
@@ -223,9 +224,6 @@ public class DocGenScript extends Script {
           	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
 			Set<String> refSchemaCodes = new HashSet();
           
-          	//builder.append(new Text(customEntityTemplate.getDbTableName()));
-			//FormFields formFields = new FormFields();
-          	//HashMap<String,Set<String>> entityMap = new HashMap<>();
           	HashSet<String> refEntities = new HashSet<>();
           	for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
@@ -240,11 +238,6 @@ public class DocGenScript extends Script {
                   
                   	refEntities.add(fieldEntityCode.toLowerCase());
                 }
-                //formFields.add(field);
-				//boolean isEntity = fieldEntityCode != null;
-				//if (isEntity && !fieldEntityCode.contains(".")) {
-				//	refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
-				//}
 			}
           	builder.append(new Text(customEntityTemplate.getDbTableName()+" {")).append("\n");
             for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
@@ -284,28 +277,4 @@ public class DocGenScript extends Script {
       return param.isPresent()?param.get():null;
     }
     
-  
-  	private Set<String> iterateRefSchemas(String entityCode, Set<String> allSchemas) {
-      	if (allSchemas.contains(entityCode)) {
-          return allSchemas;
-        }
-		Set<String> refSchemaCodes = allSchemas;
-		refSchemaCodes.add(entityCode);
-		CustomEntityTemplate entityTemplate = cetService.findByCodeOrDbTablename(entityCode);
-		Map<String, CustomFieldTemplate> fields = cftService.findByAppliesTo(entityTemplate.getAppliesTo());
-		for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
-			String key = entry.getKey();
-			CustomFieldTemplate field = entry.getValue();
-			String fieldEntityCode = field.getEntityClazzCetCode();
-			boolean isEntity = fieldEntityCode != null;
-			boolean isAdded = refSchemaCodes.contains(key);
-			boolean isCet = isEntity && !fieldEntityCode.contains(".");
-			if (!isAdded && isCet) {
-				log.debug("Adding to all schemas: {}", refSchemaCodes);
-				refSchemaCodes.addAll(iterateRefSchemas(fieldEntityCode, refSchemaCodes));
-			}
-		}
-		log.debug("Added Schemas: {}", refSchemaCodes);
-		return refSchemaCodes;
-	}
 }
