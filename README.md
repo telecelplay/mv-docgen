@@ -30,3 +30,23 @@ Postman Tests
 | Path                                                                                                                                                                             |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [master/facets/postman/Doc_Generator_API.postman_collection.json](https://github.com/telecelplay/mv-docgen/blob/master/facets/postman/Doc_Generator_API.postman_collection.json) |
+
+
+
+```mermaid
+erDiagram
+Wallet ||--o{ liquimartproductreview 
+Wallet ||--o{ purchaseorder 
+GroupPurchase ||--o{ purchaseorder 
+purchaseorder ||--o{ PurchaseOrderLine 
+Wallet ||--o{ grouppurchase 
+Wallet ||--o{ grouppurchase 
+PurchaseOrder ||--o{ grouppurchase 
+Wallet ||--o{ grouppurchase 
+Wallet ||--o{ grouppurchase 
+Wallet ||--o{ cart 
+GroupPurchase ||--o{ cart 
+cart ||--o{ PurchaseOrderLine 
+Merchant ||--o{ product 
+Wallet ||--o{ merchant 
+```
