@@ -37,13 +37,4 @@ Postman Tests
 erDiagram
 Wallet ||--o{ liquimartproductreview 
 Wallet ||--o{ purchaseorder 
-GroupPurchase ||--o{ purchaseorder 
-purchaseorder ||--o{ PurchaseOrderLine 
-Wallet ||--o{ grouppurchase 
-PurchaseOrder ||--o{ grouppurchase 
-Wallet ||--o{ cart 
-GroupPurchase ||--o{ cart 
-cart ||--o{ PurchaseOrderLine 
-Merchant ||--o{ product 
-Wallet ||--o{ merchant 
 ```
