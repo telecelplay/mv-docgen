@@ -233,7 +233,7 @@ public class DocGenScript extends Script {
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, fieldType == {}",field.getDbFieldname(),fieldEntityCode,field.getFieldType());
               	if(fieldEntityCode != null && !refEntities.contains(fieldEntityCode.toLowerCase())){
                   	if(field.getFieldType().getLabel().equalsIgnoreCase(CustomFieldTypeEnum.ENTITY.getLabel())){
-                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" }0--|| "+fieldEntityCode.toLowerCase()+ " : has")).append("\n");
+                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" }o--|| "+fieldEntityCode.toLowerCase()+ " : has")).append("\n");
                     } else {
                       	builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode.toLowerCase()+ " : has")).append("\n");
                     }
