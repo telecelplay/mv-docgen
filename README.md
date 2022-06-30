@@ -32,6 +32,9 @@ Postman Tests
 | [master/facets/postman/Doc_Generator_API.postman_collection.json](https://github.com/telecelplay/mv-docgen/blob/master/facets/postman/Doc_Generator_API.postman_collection.json) |
 
 
+ERD Diagram GroupBuying
+-----------
+
 
 ```mermaid
 erDiagram
@@ -138,5 +141,108 @@ STRING productimageid
 STRING productname
 LONG quantity
 DOUBLE unitprice
+}
+```
+
+ERD Diagram Liquichain
+-----------
+
+```mermaid
+erDiagram
+block {
+LONG blocknumber
+DATE creationdate
+STRING hash
+STRING parenthash
+LONG size
+}
+verifiedemail {
+STRING email
+BOOLEAN verified
+STRING walletid
+}
+torrentannounce }o--|| liquichainapp : has
+torrentannounce }o--|| wallet : has
+torrentannounce {
+DATE anouncedate
+ENTITY application
+LONG downloaded
+STRING infohash
+STRING ip
+DATE lastannouncedate
+DOUBLE latitude
+LONG left
+DOUBLE liveness
+DOUBLE longitude
+STRING peerid
+LONG port
+LIST status
+LONG uploaded
+STRING url
+ENTITY wallet
+}
+wallet }o--|| liquichainapp : has
+wallet }o--|| verifiedemail : has
+wallet }o--|| grouppurchase : has
+wallet }o--|| verifiedphonenumber : has
+wallet {
+STRING accounthash
+ENTITY application
+STRING applicationinstanceuuid
+STRING balance
+ENTITY emailaddress
+ENTITY grouppurchases
+STRING hexhash
+STRING keypair
+LONG lastprivateinforequest
+STRING name
+ENTITY phonenumber
+STRING privatekey
+LONG_TEXT publicinfo
+STRING publickey
+BOOLEAN verified
+}
+liquichainapp {
+DATE creationdate
+STRING description
+STRING hexcode
+STRING iconurl
+STRING name
+STRING previoushash
+STRING registrationrules
+STRING shortcode
+STRING upgraderules
+STRING version
+}
+splashscreen {
+TEXT_AREA content
+BINARY image
+LONG order
+STRING title
+}
+transaction {
+STRING blockhash
+STRING blocknumber
+DATE creationdate
+STRING data
+STRING fromhexhash
+STRING gaslimit
+STRING gasprice
+STRING hexhash
+STRING nodesignature
+STRING nonce
+STRING r
+STRING s
+STRING signedhash
+STRING tohexhash
+LONG transactionindex
+STRING type
+STRING v
+STRING value
+}
+verifiedphonenumber {
+STRING phonenumber
+BOOLEAN verified
+STRING walletid
 }
 ```
