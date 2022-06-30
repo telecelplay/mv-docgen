@@ -190,7 +190,7 @@ public class DocGenScript extends Script {
         String postmanDirPath = "/facets/postman/";
       	String postmanGitPath = module.getGitRepository().getDefaultBranch()+postmanDirPath;
       	File postmanDir = new File(modulePath+postmanDirPath);
-      	if(postmanDir.isDirectory()){
+      	if(postmanDir != null && postmanDir.isDirectory()){
           	log.info("postman dir found");
           	File[] tests = postmanDir.listFiles();
           	if(tests.length>0){
@@ -245,13 +245,9 @@ public class DocGenScript extends Script {
 				builder.append(new Text(field.getFieldType()+" "+field.getDbFieldname())).append("\n");
 			}
 			builder.append(new Text("}")).append("\n");
-      		
-          	log.info("refSchemaCodes size == {}",refSchemaCodes.size());
-          
-          	//EntityActions entityActions = new EntityActions();
+      		          
 			for (Entry<String, EntityCustomAction> entry : actions.entrySet()) {
 				log.debug("action: {}", entry.getKey());
-				//entityActions.add(entry.getValue());
 			}
         }
       	builder.append(new Text("```")).append("\n");
