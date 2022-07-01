@@ -224,19 +224,19 @@ public class DocGenScript extends Script {
           	Map<String, EntityCustomAction> actions = ecaService.findByAppliesTo(customEntityTemplate.getAppliesTo());
 			Set<String> refSchemaCodes = new HashSet();
           
-          	HashSet<String> refEntities = new HashSet<>();
+          	//HashSet<String> refEntities = new HashSet<>();
           	for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
 				String fieldEntityCode = field.getEntityClazzCetCode();
               	log.info("CFT DBFieldName == {}, fieldEntityCode == {}, fieldType == {}",field.getDbFieldname(),fieldEntityCode,field.getFieldType());
-              	if(fieldEntityCode != null && !refEntities.contains(fieldEntityCode.toLowerCase())){
+              	if(fieldEntityCode != null){
                   	if(field.getFieldType().getLabel().equalsIgnoreCase(CustomFieldTypeEnum.ENTITY.getLabel())){
-                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" }o--|| "+fieldEntityCode.toLowerCase()+ " : has")).append("\n");
+                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" }o--|| "+fieldEntityCode.toLowerCase()+ " : "+field.getDbFieldname())).append("\n");
                     } else {
-                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode.toLowerCase()+ " : has")).append("\n");
+                      	builder.append(new Text(customEntityTemplate.getDbTableName()+" ||--o{ "+fieldEntityCode.toLowerCase()+ " : "+field.getDbFieldname())).append("\n");
                     }
                   
-                  	refEntities.add(fieldEntityCode.toLowerCase());
+                  	//refEntities.add(fieldEntityCode.toLowerCase());
                 }
 			}
           	builder.append(new Text(customEntityTemplate.getDbTableName()+" {")).append("\n");
