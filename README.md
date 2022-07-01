@@ -38,109 +38,112 @@ ERD Diagram GroupBuying
 
 ```mermaid
 erDiagram
-liquimartproductreview }o--|| wallet : has
+liquimartproductreview }o--|| wallet : buyerwalletaddress
 liquimartproductreview {
-ENTITY buyerwalletaddress
-LONG_TEXT comments
-STRING productcode
-DATE purchasedate
-LONG rating
-STRING reviewdate
-STRING sellerwalletaddress
+ENTITY buyerwalletaddress false
+LONG_TEXT comments false
+STRING productcode false
+DATE purchasedate false
+LONG rating false
+STRING reviewdate false
+STRING sellerwalletaddress false
 }
-purchaseorder }o--|| wallet : has
-purchaseorder }o--|| grouppurchase : has
-purchaseorder ||--o{ purchaseorderline : has
+purchaseorder }o--|| wallet : customer
+purchaseorder }o--|| grouppurchase : grouppurchase
+purchaseorder ||--o{ purchaseorderline : orderlines
 purchaseorder {
-DOUBLE amount
-STRING cashbacktransactionid
-DATE creationdate
-ENTITY customer
-ENTITY grouppurchase
-STRING orderid
-CHILD_ENTITY orderlines
-STRING paymenttransaction
-STRING productid
-STRING purchasetransactionid
-LONG quantity
+DOUBLE amount false
+STRING cashbacktransactionid false
+DATE creationdate false
+ENTITY customer false
+ENTITY grouppurchase false
+STRING orderid false
+CHILD_ENTITY orderlines false
+STRING paymenttransaction false
+STRING productid false
+STRING purchasetransactionid false
+LONG quantity false
 }
-grouppurchase }o--|| wallet : has
-grouppurchase }o--|| purchaseorder : has
+grouppurchase }o--|| wallet : ackmembers
+grouppurchase }o--|| wallet : creator
+grouppurchase }o--|| purchaseorder : memberpurchases
+grouppurchase }o--|| wallet : members
+grouppurchase }o--|| wallet : paidmembers
 grouppurchase {
-ENTITY ackmembers
-STRING cashbacktransactions
-DATE creationdate
-ENTITY creator
-LONG currentmemberscount
-STRING discountid
-LONG discountminparticipants
-DOUBLE discountpercent
-DATE expirydate
-DATE lastupdate
-ENTITY memberpurchases
-ENTITY members
-STRING name
-ENTITY paidmembers
-LONG paidmemberscount
-STRING productid
-STRING productname
-LONG purchasedquantity
-LIST status
+ENTITY ackmembers false
+STRING cashbacktransactions false
+DATE creationdate false
+ENTITY creator false
+LONG currentmemberscount false
+STRING discountid false
+LONG discountminparticipants false
+DOUBLE discountpercent false
+DATE expirydate false
+DATE lastupdate false
+ENTITY memberpurchases false
+ENTITY members false
+STRING name false
+ENTITY paidmembers false
+LONG paidmemberscount false
+STRING productid false
+STRING productname false
+LONG purchasedquantity false
+LIST status false
 }
-cart }o--|| wallet : has
-cart }o--|| grouppurchase : has
-cart ||--o{ purchaseorderline : has
+cart }o--|| wallet : customer
+cart }o--|| grouppurchase : grouppurchase
+cart ||--o{ purchaseorderline : orderlines
 cart {
-DOUBLE amount
-DATE creationdate
-ENTITY customer
-ENTITY grouppurchase
-CHILD_ENTITY orderlines
+DOUBLE amount false
+DATE creationdate false
+ENTITY customer false
+ENTITY grouppurchase false
+CHILD_ENTITY orderlines false
 }
-product }o--|| merchant : has
+product }o--|| merchant : merchant
 product {
-LONG bestseller
-LONG categid
-STRING code
-LONG costcurrencyid
-DATE createdate
-LONG currencyid
-STRING displayname
-LONG groupdiscountid
-LONG id
-DOUBLE listprice
-LONG locationid
-ENTITY merchant
-STRING name
+LONG bestseller false
+LONG categid false
+STRING code false
+LONG costcurrencyid false
+DATE createdate false
+LONG currencyid false
+STRING displayname false
+LONG groupdiscountid false
+LONG id false
+DOUBLE listprice false
+LONG locationid false
+ENTITY merchant false
+STRING name false
 }
-merchant }o--|| wallet : has
+merchant }o--|| wallet : wallet
 merchant {
-SECRET accountcountercode
-STRING accountfirstname
-STRING accountlastname
-SECRET accountribkey
-STRING bankaccountnumber
-STRING bankcode
-SECRET cardcvc
-STRING cardexpirymonth
-STRING cardexpiryyear
-STRING cardholderfirstname
-STRING cardholderlastname
-SECRET cardnumber
-STRING cardtype
-LONG id
-STRING name
-STRING orangephonenumber
-ENTITY wallet
+SECRET accountcountercode false
+STRING accountfirstname false
+STRING accountlastname false
+SECRET accountribkey false
+STRING bankaccountnumber false
+STRING bankcode false
+SECRET cardcvc false
+STRING cardexpirymonth false
+STRING cardexpiryyear false
+STRING cardholderfirstname false
+STRING cardholderlastname false
+SECRET cardnumber false
+STRING cardtype false
+LONG id false
+STRING name false
+STRING orangephonenumber false
+ENTITY wallet false
 }
 purchaseorderline {
-STRING currency
-DOUBLE price
-STRING productid
-STRING productimageid
-STRING productname
-LONG quantity
-DOUBLE unitprice
+STRING currency false
+DOUBLE price false
+STRING productid false
+STRING productimageid false
+STRING productname false
+LONG quantity false
+DOUBLE unitprice false
 }
 ```
 
