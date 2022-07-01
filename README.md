@@ -40,29 +40,29 @@ ERD Diagram GroupBuying
 erDiagram
 liquimartproductreview }o--|| wallet : buyerwalletaddress
 liquimartproductreview {
-ENTITY buyerwalletaddress false
-LONG_TEXT comments false
-STRING productcode false
-DATE purchasedate false
-LONG rating false
-STRING reviewdate false
-STRING sellerwalletaddress false
+ENTITY buyerwalletaddress PK
+LONG_TEXT comments 
+STRING productcode 
+DATE purchasedate 
+LONG rating 
+STRING reviewdate
+STRING sellerwalletaddress 
 }
 purchaseorder }o--|| wallet : customer
 purchaseorder }o--|| grouppurchase : grouppurchase
 purchaseorder ||--o{ purchaseorderline : orderlines
 purchaseorder {
-DOUBLE amount false
-STRING cashbacktransactionid false
-DATE creationdate false
-ENTITY customer false
-ENTITY grouppurchase false
+DOUBLE amount 
+STRING cashbacktransactionid 
+DATE creationdate 
+ENTITY customer 
+ENTITY grouppurchase 
 STRING orderid false
-CHILD_ENTITY orderlines false
-STRING paymenttransaction false
-STRING productid false
-STRING purchasetransactionid false
-LONG quantity false
+CHILD_ENTITY orderlines 
+STRING paymenttransaction 
+STRING productid 
+STRING purchasetransactionid 
+LONG quantity 
 }
 grouppurchase }o--|| wallet : ackmembers
 grouppurchase }o--|| wallet : creator
