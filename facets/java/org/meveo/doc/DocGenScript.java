@@ -242,7 +242,7 @@ public class DocGenScript extends Script {
           	builder.append(new Text(customEntityTemplate.getDbTableName()+" {")).append("\n");
             for (Entry<String, CustomFieldTemplate> entry : fields.entrySet()) {
 				CustomFieldTemplate field = entry.getValue();
-              	String key = field.isIdentifier()?"PK":"";
+              	String key = field.isIdentifier()?"PK":field.isUnique()?"UK":"";
 				builder.append(new Text(field.getFieldType()+" "+field.getDbFieldname()+" "+key)).append("\n");
 			}
 			builder.append(new Text("}")).append("\n");
