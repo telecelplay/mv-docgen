@@ -247,9 +247,9 @@ public class DocGenScript extends Script {
 			}
 			builder.append(new Text("}")).append("\n");
       		          
-			for (Entry<String, EntityCustomAction> entry : actions.entrySet()) {
-				log.debug("action: {}", entry.getKey());
-			}
+			//for (Entry<String, EntityCustomAction> entry : actions.entrySet()) {
+			//	log.debug("action: {}", entry.getKey());
+			//}
         }
       	builder.append(new Text("```")).append("\n");
       
