@@ -1,0 +1,11 @@
+{
+  "code" : "DocGenerator",
+  "name" : "Module Documentation Generator",
+  "description" : "Module Documentation Generator",
+  "availableStorages" : [ "SQL" ],
+  "sqlStorageConfiguration" : {
+    "storeAsTable" : true
+  },
+  "samples" : [ ],
+  "audited" : false
+}
