@@ -1,6 +1,6 @@
 {
   "code" : "DocGenerator",
-  "name" : "Module Documentation Generator",
+  "name" : "Module Doc Generator",
   "description" : "Module Documentation Generator",
   "availableStorages" : [ "SQL" ],
   "sqlStorageConfiguration" : {
