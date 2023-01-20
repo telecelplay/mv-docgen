@@ -106,7 +106,7 @@ public class DocGenScript extends Script {
         log.info("module git path == {}", gitPath);
         StringBuilder builder = new StringBuilder();
         try {
-            modulePath = GitHelper.getRepositoryDir(user, moduleCode);
+            modulePath = GitHelper.getRepositoryDir(user, module.getGitRepository());
             filePath = modulePath + "/README.md";
             String text = new String(Files.readAllBytes(Paths.get(filePath)));
             builder.append(new Heading(module.getCode(), 1)).append("\n");
